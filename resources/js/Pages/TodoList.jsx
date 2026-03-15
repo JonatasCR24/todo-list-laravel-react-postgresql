@@ -31,7 +31,7 @@ export default function TodoList({ tasks }) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col items-center py-20">
+        <div className="min-h-screen bg-gray-100 flex flex-col items-center py-20 px-4">
             <Head title="Minhas Tarefas" />
 
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
