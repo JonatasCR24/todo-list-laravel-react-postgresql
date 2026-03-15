@@ -28,5 +28,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/tarefas', [TaskController::class, 'index']); // Quando ENTRAR na página, roda a função index
 Route::post('/tarefas', [TaskController::class, 'store']); // Quando ENVIAR o formulário, roda a função store
+Route::patch('/tarefas/{task}', [TaskController::class, 'update']); // Quando ALTERAR o formulário, roda a função update
+Route::delete('/tarefas/{task}', [TaskController::class, 'destroy']); // Quando EXCLUIR uma tarefa, roda a função destroy
 
 require __DIR__.'/auth.php';

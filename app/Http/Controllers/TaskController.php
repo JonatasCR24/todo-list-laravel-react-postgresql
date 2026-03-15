@@ -12,10 +12,10 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all(); // Equivale a "SELECT * FROM tasks"
-        
+
         // Manda o React renderizar a tela TodoList e entrega a variável $tasks para ela
         return Inertia::render('TodoList', [
-            'tasks' => $tasks 
+            'tasks' => $tasks
         ]);
     }
 
@@ -33,6 +33,28 @@ class TaskController extends Controller
         ]);
 
         // 3. Atualiza a tela sem piscar (Magia do Inertia)
+        return redirect()->back();
+    }
+
+    // Função para ATUALIZAR (Concluir/Desfazer tarefa)
+    public function update(Task $task)
+    {
+
+        // Inverte o estado atual. Se era false (0), vira true (1). Se era true, vira false.
+        $task->update([
+            'is_completed' => !$task->is_completed
+        ]);
+
+        // Devolve a resposta para o React atualizar o ecrã
+        return redirect()->back();
+    }
+
+    // Função para ELIMINAR uma tarefa
+    public function destroy(Task $task)
+    {
+        // Equivale a "DELETE FROM tasks WHERE id = ?"
+        $task->delete();
+
         return redirect()->back();
     }
 }
