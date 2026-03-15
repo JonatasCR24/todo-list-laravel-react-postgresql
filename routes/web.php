@@ -5,6 +5,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\TaskController;
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -24,8 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/tarefas', function () {
-    return Inertia::render('TodoList');
-});
+Route::get('/tarefas', [TaskController::class, 'index']); // Quando ENTRAR na página, roda a função index
+Route::post('/tarefas', [TaskController::class, 'store']); // Quando ENVIAR o formulário, roda a função store
 
 require __DIR__.'/auth.php';
