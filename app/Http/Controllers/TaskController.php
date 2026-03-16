@@ -12,7 +12,7 @@ class TaskController extends Controller
     public function index()
     {
         //$tasks = Task::all(); // Equivale a "SELECT * FROM tasks"
-        
+
         $tasks = Task::latest()->get(); // Equivale a "SELECT * FROM tasks ORDER BY created_at DESC"
 
         // Manda o React renderizar a tela TodoList e entrega a variável $tasks para ela
@@ -39,14 +39,26 @@ class TaskController extends Controller
     }
 
     // Função para ATUALIZAR (Concluir/Desfazer tarefa)
-    public function update(Task $task)
+    public function update(Request $request, Task $task)
     {
+        //Verifica se o campo enviado foi o campo title
+        if ($request->has('title')) {
+            // se sim valida o campo title
+            $request->validate([
+                'title' => 'required|string|max:255',
+            ]);
+            // e atualiza o título da tarefa
+            $task->update([
+                'title' => $request->title
+            ]);
+        } else {
+            // se não, é porque o campo enviado foi o is_completed, e aí a gente só inverte o valor dele
 
-        // Inverte o estado atual. Se era false (0), vira true (1). Se era true, vira false.
-        $task->update([
-            'is_completed' => !$task->is_completed
-        ]);
-
+            // Inverte o estado atual. Se era false (0), vira true (1). Se era true, vira false.
+            $task->update([
+                'is_completed' => !$task->is_completed
+            ]);
+        }
         // Devolve a resposta para o React atualizar o ecrã
         return redirect()->back();
     }
