@@ -11,7 +11,9 @@ class TaskController extends Controller
     // Função para MOSTRAR a tela e as tarefas
     public function index()
     {
-        $tasks = Task::all(); // Equivale a "SELECT * FROM tasks"
+        //$tasks = Task::all(); // Equivale a "SELECT * FROM tasks"
+        
+        $tasks = Task::latest()->get(); // Equivale a "SELECT * FROM tasks ORDER BY created_at DESC"
 
         // Manda o React renderizar a tela TodoList e entrega a variável $tasks para ela
         return Inertia::render('TodoList', [

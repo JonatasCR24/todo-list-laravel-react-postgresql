@@ -44,7 +44,7 @@ export default function TodoList({ tasks }) {
                         type="text"
                         value={data.title}
                         onChange={(e) => setData('title', e.target.value)}
-                        placeholder="O que precisa de fazer?"
+                        placeholder="O que você precisa fazer?"
                         className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         required
                     />
