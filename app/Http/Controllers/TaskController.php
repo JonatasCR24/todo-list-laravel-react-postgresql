@@ -35,7 +35,7 @@ class TaskController extends Controller
         ]);
 
         // 3. Atualiza a tela sem piscar (Magia do Inertia)
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Tarefa adicionada com sucesso!');
     }
 
     // Função para ATUALIZAR (Concluir/Desfazer tarefa)
@@ -60,7 +60,7 @@ class TaskController extends Controller
             ]);
         }
         // Devolve a resposta para o React atualizar o ecrã
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Tarefa atualizada com sucesso!');
     }
 
     // Função para ELIMINAR uma tarefa
@@ -69,6 +69,6 @@ class TaskController extends Controller
         // Equivale a "DELETE FROM tasks WHERE id = ?"
         $task->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Tarefa eliminada com sucesso!');
     }
 }

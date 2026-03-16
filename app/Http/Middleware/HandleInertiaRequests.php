@@ -27,7 +27,18 @@ class HandleInertiaRequests extends Middleware
      *
      * @return array<string, mixed>
      */
+
     public function share(Request $request): array
+    {
+        return array_merge(parent::share($request), [
+            // Isso garante que todas as mensagens 'success' sejam enviadas para o React
+            'flash' => [
+                'success' => fn() => $request->session()->get('success')
+            ],
+        ]);
+    }
+
+    /*public function share(Request $request): array
     {
         return [
             ...parent::share($request),
@@ -35,5 +46,5 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
         ];
-    }
+    }*/
 }

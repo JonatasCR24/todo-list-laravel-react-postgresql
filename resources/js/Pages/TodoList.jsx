@@ -1,5 +1,6 @@
-import React, { useState} from 'react';
-import { Head, useForm, router, } from '@inertiajs/react';
+import React, { useState, useEffect } from 'react';
+import { Head, useForm, router, usePage } from '@inertiajs/react';
+import Swal from 'sweetalert2';
 
 // O PHP enviou a variável $tasks, o React recebe ela aqui como propriedade (props)
 export default function TodoList({ tasks }) {
@@ -9,11 +10,34 @@ export default function TodoList({ tasks }) {
         title: '', // Cria a variável title começando vazia
     });
 
+    // Estados para edição de tarefas:
+
     //guarda o id da tarefa que está sendo editada, ou null se nenhuma tarefa estiver sendo editada
     const [editingTaskId, setEditingTaskId] = useState(null);
 
     //guarda o texto do título da tarefa que está sendo editada
     const [editingTaskTitle, setEditingTaskTitle] = useState('');
+
+    // captura as mensagens 'flas'h do Laravel (como 'success' ou 'error') para mostrar alertas
+    const { flash } = usePage().props;
+
+    // fica de olho nas mensagens flash e mostra um alerta usando SweetAlert2 sempre que uma nova mensagem chegar
+    useEffect(() => {
+        if (flash.success) {
+            Swal.fire({
+                toast: true, // Faz o alerta parecer um "toast" (pequeno e no canto)
+                position: 'top-end', // Posiciona no canto superior direito
+                icon: 'success', // Ícone de sucesso (verde)
+                title: flash.success, // O texto da mensagem de sucesso
+                showConfirmButton: false, // Esconde o botão "OK"
+                timer: 3000, // Fecha o alerta automaticamente após 3 segundos
+                timerProgressBar: true, // Mostra uma barra de progresso do tempo
+            });
+        }
+    }, [flash]); // o array [flash] diz ao react para monitorar essa variavel
+
+    
+    //Funções:
 
     // funcao que roda quando starta a edição de uma tarefa
     const startEditing = (task) => {
@@ -55,7 +79,22 @@ export default function TodoList({ tasks }) {
 
     // Nova função: Dispara a rota DELETE do Laravel
     const deleteTask = (id) => {
-        router.delete(`/tarefas/${id}`);
+        // Antes de deletar, mostramos um alerta de confirmação usando SweetAlert2
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá reverter isso!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Deletar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            // Se o usuário clicar em "Sim, delete!", então enviamos a requisição DELETE para o Laravel
+            if (result.isConfirmed) {
+                router.delete(`/tarefas/${id}`);
+            }
+        });
     };
 
     return (
