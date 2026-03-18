@@ -36,7 +36,7 @@ export default function TodoList({ tasks }) {
         }
     }, [flash]); // o array [flash] diz ao react para monitorar essa variavel
 
-    
+
     //Funções:
 
     // funcao que roda quando starta a edição de uma tarefa
@@ -103,7 +103,7 @@ export default function TodoList({ tasks }) {
 
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
                 <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
-                    ✅ To-Do List Full Stack
+                    Lista de Tarefas (Laravel Sail)
                 </h1>
 
                 <form onSubmit={handleSubmit} className="flex gap-2 mb-6">

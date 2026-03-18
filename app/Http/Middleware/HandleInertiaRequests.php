@@ -31,20 +31,16 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
+
+            // Compartilha os dados do usuário logado com o React, para que ele saiba quem é o usuário
+            'auth' => [
+                'user' => $request->user(),
+            ],
+
             // Isso garante que todas as mensagens 'success' sejam enviadas para o React
             'flash' => [
                 'success' => fn() => $request->session()->get('success')
             ],
         ]);
     }
-
-    /*public function share(Request $request): array
-    {
-        return [
-            ...parent::share($request),
-            'auth' => [
-                'user' => $request->user(),
-            ],
-        ];
-    }*/
 }

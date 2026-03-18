@@ -6,14 +6,27 @@ use Illuminate\Http\Request;
 use App\Models\Task; // Importamos o nosso Representante do Banco
 use Inertia\Inertia; // Importamos o "Motoboy" do React
 
+use Illuminate\Support\Facades\Auth;
+
 class TaskController extends Controller
 {
     // Função para MOSTRAR a tela e as tarefas
     public function index()
     {
         //$tasks = Task::all(); // Equivale a "SELECT * FROM tasks"
+        //$tasks = Task::latest()->get(); // Equivale a "SELECT * FROM tasks ORDER BY created_at DESC"
 
-        $tasks = Task::latest()->get(); // Equivale a "SELECT * FROM tasks ORDER BY created_at DESC"
+        
+        //Pega apenas as tarefas do usuário logado, e ordena da mais nova para a mais antiga
+        // Equivale a "SELECT * FROM tasks WHERE user_id = ? ORDER BY created_at DESC"
+
+        // 1. Dizemos explicitamente pro VS Code quem é esse usuário
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // 2. Agora o VS Code tem certeza absoluta que o $user tem a função tasks()
+        $tasks = $user->tasks()->latest()->get();
+
 
         // Manda o React renderizar a tela TodoList e entrega a variável $tasks para ela
         return Inertia::render('TodoList', [
@@ -22,51 +35,58 @@ class TaskController extends Controller
     }
 
     // Função para SALVAR uma nova tarefa
+
     public function store(Request $request)
     {
-        // 1. Validação (Garante que não enviaram uma tarefa vazia)
         $request->validate([
             'title' => 'required|string|max:255',
         ]);
 
-        // 2. Salva no banco de dados (Equivale ao INSERT INTO)
-        Task::create([
+        // Dizemos explicitamente pro VS Code quem é esse usuário
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Agora salva a tarefa vinculada a ele sem linhas vermelhas
+        $user->tasks()->create([
             'title' => $request->title,
         ]);
 
-        // 3. Atualiza a tela sem piscar (Magia do Inertia)
         return redirect()->back()->with('success', 'Tarefa adicionada com sucesso!');
     }
 
-    // Função para ATUALIZAR (Concluir/Desfazer tarefa)
+    // Função para ATUALIZAR (Concluir/Desfazer ou Editar Título)
     public function update(Request $request, Task $task)
     {
-        //Verifica se o campo enviado foi o campo title
+        // TRAVA DE SEGURANÇA: O ID do dono da tarefa é diferente do ID do cara logado?
+        if ($task->user_id !== Auth::id()) {
+            abort(403, 'Acesso não autorizado. Essa tarefa não é sua!');
+        }
+
         if ($request->has('title')) {
-            // se sim valida o campo title
             $request->validate([
                 'title' => 'required|string|max:255',
             ]);
-            // e atualiza o título da tarefa
+
             $task->update([
                 'title' => $request->title
             ]);
         } else {
-            // se não, é porque o campo enviado foi o is_completed, e aí a gente só inverte o valor dele
-
-            // Inverte o estado atual. Se era false (0), vira true (1). Se era true, vira false.
             $task->update([
                 'is_completed' => !$task->is_completed
             ]);
         }
-        // Devolve a resposta para o React atualizar o ecrã
+
         return redirect()->back()->with('success', 'Tarefa atualizada com sucesso!');
     }
 
     // Função para ELIMINAR uma tarefa
     public function destroy(Task $task)
     {
-        // Equivale a "DELETE FROM tasks WHERE id = ?"
+        // TRAVA DE SEGURANÇA: Impede que apaguem tarefas de outras pessoas
+        if ($task->user_id !== Auth::id()) {
+            abort(403, 'Acesso não autorizado. Essa tarefa não é sua!');
+        }
+
         $task->delete();
 
         return redirect()->back()->with('success', 'Tarefa eliminada com sucesso!');

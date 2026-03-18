@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+
+            // Nova linha: Cria a coluna user_id e já faz o FOREIGN KEY ligando com a tabela users
+            // O onDelete('cascade') garante que se o usuário for deletado, as tarefas dele também somem.
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
             $table->string('title');
             $table->boolean('is_completed')->default(false);
             $table->timestamps();
