@@ -36,6 +36,11 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Minhas Tarefas
                                 </NavLink>
 
+                                {/*Novo link pra pomodoro no PC*/}
+                                <NavLink href="/pomodoro" active={window.location.pathname === '/pomodoro'}>
+                                    Pomodoro
+                                </NavLink>
+
                             </div>
                         </div>
 
@@ -141,9 +146,14 @@ export default function AuthenticatedLayout({ header, children }) {
                             Dashboard
                         </ResponsiveNavLink>
 
-                        {/*Novo link pra tarefas so´que no mobile*/}
+                        {/*Novo link pra tarefas no mobile*/}
                         <ResponsiveNavLink href="/tarefas" active={window.location.pathname === '/tarefas'}>
                             Minhas Tarefas
+                        </ResponsiveNavLink>
+
+                        {/*Novo link pra pomodoro no mobile*/}
+                        <ResponsiveNavLink href="/pomodoro" active={window.location.pathname === '/pomodoro'}>
+                            Pomodoro
                         </ResponsiveNavLink>
 
                     </div>

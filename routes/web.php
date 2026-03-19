@@ -35,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/tarefas', [TaskController::class, 'store']); // Quando ENVIAR o formulário, roda a função store
     Route::patch('/tarefas/{task}', [TaskController::class, 'update']); // Quando ALTERAR o formulário, roda a função update
     Route::delete('/tarefas/{task}', [TaskController::class, 'destroy']); // Quando EXCLUIR uma tarefa, roda a função destroy
+
+    // Rotas para entrar na pagina pomodoro
+    Route::get('/pomodoro', function () {
+        return Inertia::render('Pomodoro');
+    });
 });
 
 
