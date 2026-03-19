@@ -4,13 +4,16 @@ import { router } from '@inertiajs/react';
 // O componente recebe a tarefa específica e as funções do pai (TodoList) via "props"
 export default function TaskItem({ task, toggleComplete, deleteTask }) {
 
-    // A "memória" de edição agora é individual de cada tarefa!
     const [isEditing, setIsEditing] = useState(false);
+    // memoria de edicao do titulo
     const [editTitle, setEditTitle] = useState(task.title);
+
+    // memoria de edicao da categoria 
+    const [editCategory, setEditCategory] = useState(task.category);
 
     // Função que salva a edição desta tarefa específica
     const saveEdit = () => {
-        router.patch(`/tarefas/${task.id}`, { title: editTitle }, {
+        router.patch(`/tarefas/${task.id}`, { title: editTitle, category: editCategory }, {
             onSuccess: () => setIsEditing(false), // Sai do modo de edição se der sucesso
         });
     };
@@ -19,12 +22,13 @@ export default function TaskItem({ task, toggleComplete, deleteTask }) {
     const cancelEditing = () => {
         setIsEditing(false);
         setEditTitle(task.title); // Restaura o título original
+        setEditCategory(task.category); // Restaura a categoria original
     };
 
     return (
         <li className="p-3 bg-gray-50 border border-gray-200 rounded-md flex gap-3 items-center w-full min-h-[56px]">
 
-            {/* CHECKBOX: Some se estiver editando */}
+            {/* O NOSSO CHECKBOX VOLTOU AQUI! */}
             {!isEditing && (
                 <input
                     type="checkbox"
@@ -36,17 +40,38 @@ export default function TaskItem({ task, toggleComplete, deleteTask }) {
 
             {/* ÁREA DO TEXTO OU INPUT */}
             {isEditing ? (
-                <input
-                    type="text"
-                    value={editTitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                    className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-700 p-1"
-                    autoFocus
-                />
+                // MODO EDIÇÃO: Mostra o input de texto E o select de categoria lado a lado
+                <div className="flex-1 flex flex-wrap gap-2">
+                    <input
+                        type="text"
+                        value={editTitle}
+                        onChange={(e) => setEditTitle(e.target.value)}
+                        className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-700 p-1"
+                        autoFocus
+                    />
+                    <select
+                        value={editCategory}
+                        onChange={(e) => setEditCategory(e.target.value)}
+                        className="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm p-1"
+                    >
+                        <option value="Geral">Geral</option>
+                        <option value="Trabalho">Trabalho</option>
+                        <option value="Estudos">Estudos</option>
+                        <option value="Casa">Casa</option>
+                    </select>
+                </div>
             ) : (
-                <span className={`flex-1 break-all ${task.is_completed ? "line-through text-gray-400" : "text-gray-700"}`}>
-                    {task.title}
-                </span>
+                // MODO LEITURA: Mostra o título e a etiqueta (badge) da categoria
+                <div className="flex-1 flex items-center justify-between gap-4">
+                    <span className={`break-all ${task.is_completed ? "line-through text-gray-400" : "text-gray-700"}`}>
+                        {task.title}
+                    </span>
+
+                    {/* Aqui está a etiqueta da Categoria! */}
+                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 whitespace-nowrap">
+                        {task.category}
+                    </span>
+                </div>
             )}
 
             {/* BOTÕES */}

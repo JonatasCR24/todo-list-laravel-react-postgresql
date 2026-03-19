@@ -34,12 +34,12 @@ class TaskController extends Controller
         ]);
     }
 
-    // Função para SALVAR uma nova tarefa
-
     public function store(Request $request)
     {
+
         $request->validate([
             'title' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
         ]);
 
         // Dizemos explicitamente pro VS Code quem é esse usuário
@@ -49,6 +49,7 @@ class TaskController extends Controller
         // Agora salva a tarefa vinculada a ele sem linhas vermelhas
         $user->tasks()->create([
             'title' => $request->title,
+            'category' => $request->category,
         ]);
 
         return redirect()->back()->with('success', 'Tarefa adicionada com sucesso!');
@@ -65,10 +66,12 @@ class TaskController extends Controller
         if ($request->has('title')) {
             $request->validate([
                 'title' => 'required|string|max:255',
+                'category' => 'required|string|max:255',
             ]);
 
             $task->update([
-                'title' => $request->title
+                'title' => $request->title,
+                'category' => $request->category
             ]);
         } else {
             $task->update([

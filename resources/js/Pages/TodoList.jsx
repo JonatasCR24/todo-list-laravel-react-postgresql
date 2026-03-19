@@ -10,6 +10,7 @@ export default function TodoList({ tasks }) {
     // O useForm é o "motoboy" do Inertia para formulários
     const { data, setData, post, processing, reset } = useForm({
         title: '', // Cria a variável title começando vazia
+        category: 'Geral', // Cria a variável category começando com o valor padrão
     });
 
     // captura as mensagens 'flas'h do Laravel (como 'success' ou 'error') para mostrar alertas
@@ -19,13 +20,13 @@ export default function TodoList({ tasks }) {
     useEffect(() => {
         if (flash.success) {
             Swal.fire({
-                toast: true, // Faz o alerta parecer um "toast" (pequeno e no canto)
-                position: 'top-end', // Posiciona no canto superior direito
-                icon: 'success', // Ícone de sucesso (verde)
-                title: flash.success, // O texto da mensagem de sucesso
-                showConfirmButton: false, // Esconde o botão "OK"
-                timer: 3000, // Fecha o alerta automaticamente após 3 segundos
-                timerProgressBar: true, // Mostra uma barra de progresso do tempo
+                toast: true, // pequeno e no canto
+                position: 'top-end',
+                icon: 'success',
+                title: flash.success,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
             });
         }
     }, [flash]); // o array [flash] diz ao react para monitorar essa variavel
@@ -78,12 +79,12 @@ export default function TodoList({ tasks }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-center">
 
                     {/* AQUI COMEÇA O SEU QUADRADO BRANCO EXATAMENTE COMO ERA */}
-                    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+                    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl">
                         <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
-                            Lista de Tarefas (Laravel Sail)
+                            Lista de Tarefas (Laravel Sail + React + PostgreSQL)
                         </h1>
 
-                        <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
+                        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 mb-6">
                             <input
                                 type="text"
                                 value={data.title}
@@ -92,10 +93,21 @@ export default function TodoList({ tasks }) {
                                 className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                 required
                             />
+                            <select
+                                value={data.category}
+                                onChange={(e) => setData('category', e.target.value)}
+                                className="w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            >
+                                <option value="Geral">Geral</option>
+                                <option value="Trabalho">Trabalho</option>
+                                <option value="Estudos">Estudos</option>
+                                <option value="Casa">Casa</option>
+
+                            </select>
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
+                                className="w-full sm:w-auto whitespace-nowrap bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition-colors"
                             >
                                 Adicionar
                             </button>
