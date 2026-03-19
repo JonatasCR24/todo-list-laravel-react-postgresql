@@ -64,6 +64,30 @@ export default function Pomodoro() {
         };
     }, [isRunning]);
 
+
+    React.useEffect(() => {
+        const timeStr = formatTime(timeLeft);
+        const modeStr = isBreak ? 'Descanso' : 'Foco';
+
+        document.title = `${modeStr} - ${timeStr}`;
+
+        return () => {
+            document.title = 'Pomodoro - Laravel';
+        }
+    }, [timeLeft, isBreak]);
+
+    // tocar som quando o timer chegar a zero
+    useEffect(() => {
+        if (timeLeft === 0) {
+            const alarme = new Audio('/sounds/alarme.mp3');
+            alarme.play().catch(e => console.log("Erro ao tocar o som:", e));
+        }
+    }, [timeLeft]);
+
+
+    // Verifica se o timer está no tempo inicial (25m no foco ou 5m na pausa)
+    const isPristine = isBreak ? timeLeft === 5 * 60 : timeLeft === 25 * 60;
+
     return (
         // 2. Passamos o user para o Layout saber quem está logado
         <AuthenticatedLayout
@@ -73,50 +97,68 @@ export default function Pomodoro() {
             <Head title="Pomodoro" />
             <div className="py-12">
                 <div className="mx-auto max-w-2xl sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-xl sm:rounded-2xl p-8 flex flex-col items-center max-w-md w-full mx-auto border border-gray-100">
 
-                        {/* ABAS DE MODO (Foco vs Pausa) */}
-                        <div className="flex gap-2 mb-8 bg-gray-100 p-1 rounded-lg">
+                    {/* CONTAINER MINIMALISTA */}
+                    <div className="flex flex-col items-center justify-center min-h-[50vh] bg-white rounded-3xl p-10 shadow-sm">
+
+                        {/* ABAS DISCRETAS */}
+                        <div className="flex gap-8 mb-16 text-lg font-medium text-gray-400">
                             <button
                                 onClick={() => switchMode(false)}
-                                className={`px-6 py-2 rounded-md font-bold transition-all ${!isBreak ? 'bg-white text-indigo-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                className={`transition-all pb-2 ${!isBreak ? 'text-gray-900 border-b-2 border-gray-900' : 'hover:text-gray-600'}`}
                             >
-                                Pomodoro
+                                Foco
                             </button>
                             <button
                                 onClick={() => switchMode(true)}
-                                className={`px-6 py-2 rounded-md font-bold transition-all ${isBreak ? 'bg-white text-emerald-500 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+                                className={`transition-all pb-2 ${isBreak ? 'text-gray-900 border-b-2 border-gray-900' : 'hover:text-gray-600'}`}
                             >
-                                Pausa Curta
+                                Descanso
                             </button>
                         </div>
 
-                        {/* O RELÓGIO GIGANTE */}
-                        <div className={`flex flex-col items-center justify-center rounded-full w-64 h-64 border-[12px] shadow-inner mb-8 transition-colors duration-500 ${!isBreak ? 'border-indigo-100 bg-indigo-50/30' : 'border-emerald-100 bg-emerald-50/30'}`}>
-                            <span className={`text-6xl font-black tracking-tighter ${!isBreak ? 'text-indigo-600' : 'text-emerald-500'}`}>
+                        {/* CRONÔMETRO GIGANTE (text-9xl) */}
+                        <div className="mb-16">
+                            <h1 className="text-9xl font-black text-gray-800 tracking-tighter tabular-nums">
                                 {formatTime(timeLeft)}
-                            </span>
+                            </h1>
                         </div>
 
-                        {/* BOTÕES DE CONTROLE (Play / Pause / Reset) */}
-                        <div className="flex gap-4 w-full">
+                        {/* CONTROLES */}
+                        <div className="flex items-center gap-8 h-20">
+
+                            {/* BOTÃO PLAY/PAUSE REDONDO E SÓLIDO */}
                             <button
                                 onClick={toggleTimer}
-                                className={`flex-1 py-4 font-black rounded-xl text-xl text-white shadow-lg transition-transform hover:-translate-y-1 ${!isBreak ? 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200' : 'bg-emerald-500 hover:bg-emerald-600 shadow-emerald-200'}`}
+                                className="w-20 h-20 flex items-center justify-center bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-transform active:scale-95 shadow-lg"
                             >
-                                {isRunning ? 'PAUSAR ⏸️' : 'COMEÇAR ▶️'}
+                                {isRunning ? (
+                                    /* Ícone de Pause */
+                                    <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
+                                ) : (
+                                    // texto falando medio falando iniciar se for começar um novo cronometro ou voltar se ele tiver sido pausado
+                                    <span className="text-sm font-semibold">
+                                        {isPristine ? 'Iniciar' : 'Voltar'}
+                                    </span>
+                                )}
                             </button>
 
-                            <button
-                                onClick={resetTimer}
-                                className="px-6 py-4 bg-gray-100 text-gray-700 font-bold rounded-xl text-xl hover:bg-gray-200 transition-colors"
-                                title="Zerar cronômetro"
-                            >
-                                🔄
-                            </button>
+                            {/* BOTÃO RESET CONDICIONAL */}
+                            {!isPristine && (
+                                <button
+                                    onClick={resetTimer}
+                                    className="text-gray-400 hover:text-gray-800 transition-colors animate-fade-in-up"
+                                    title="Zerar cronômetro"
+                                >
+                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                    </svg>
+                                </button>
+                            )}
                         </div>
 
                     </div>
+
                 </div>
             </div>
         </AuthenticatedLayout>
