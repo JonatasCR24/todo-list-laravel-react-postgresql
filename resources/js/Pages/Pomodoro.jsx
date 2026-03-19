@@ -72,7 +72,7 @@ export default function Pomodoro() {
         document.title = `${modeStr} - ${timeStr}`;
 
         return () => {
-            document.title = 'Pomodoro - Laravel';
+            document.title = 'Pomodoro';
         }
     }, [timeLeft, isBreak]);
 
