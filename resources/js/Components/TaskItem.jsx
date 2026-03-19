@@ -34,7 +34,7 @@ export default function TaskItem({ task, toggleComplete, deleteTask }) {
                     type="checkbox"
                     checked={task.is_completed}
                     onChange={() => toggleComplete(task.id)}
-                    className="form-checkbox h-5 w-5 text-indigo-600 rounded focus:ring-indigo-500 cursor-pointer flex-shrink-0"
+                    className="form-checkbox h-5 w-5 text-pomoblue-600 rounded focus:ring-pomoblue-500 cursor-pointer flex-shrink-0"
                 />
             )}
 
@@ -46,13 +46,13 @@ export default function TaskItem({ task, toggleComplete, deleteTask }) {
                         type="text"
                         value={editTitle}
                         onChange={(e) => setEditTitle(e.target.value)}
-                        className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-700 p-1"
+                        className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500 text-gray-700 p-1"
                         autoFocus
                     />
                     <select
                         value={editCategory}
                         onChange={(e) => setEditCategory(e.target.value)}
-                        className="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm p-1"
+                        className="border-gray-300 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500 text-sm p-1"
                     >
                         <option value="Geral">Geral</option>
                         <option value="Trabalho">Trabalho</option>

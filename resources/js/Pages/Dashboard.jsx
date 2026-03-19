@@ -20,7 +20,7 @@ export default function Dashboard({ auth }) {
                         {/* 2. NOSSO NOVO BOTÃO DE ATALHO AQUI */}
                         <Link
                             href="/tarefas"
-                            className="inline-block bg-indigo-600 text-white font-bold py-2 px-4 rounded hover:bg-indigo-700 transition"
+                            className="inline-block bg-pomoblue-600 text-white font-bold py-2 px-4 rounded hover:bg-pomoblue-700 transition"
                         >
                             Minhas Tarefas
                         </Link>

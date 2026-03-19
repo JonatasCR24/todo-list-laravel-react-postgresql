@@ -97,13 +97,13 @@ export default function TodoList({ tasks }) {
                                 value={data.title}
                                 onChange={(e) => setData('title', e.target.value)}
                                 placeholder="O que você precisa fazer?"
-                                className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
                                 required
                             />
                             <select
                                 value={data.category}
                                 onChange={(e) => setData('category', e.target.value)}
-                                className="w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                className="w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
                             >
                                 <option value="Geral">Geral</option>
                                 <option value="Trabalho">Trabalho</option>
@@ -114,7 +114,7 @@ export default function TodoList({ tasks }) {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className="w-full sm:w-auto whitespace-nowrap bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition-colors"
+                                className="w-full sm:w-auto whitespace-nowrap bg-pomoblue-600 hover:bg-pomoblue-700 text-white font-bold py-2 px-4 rounded transition-colors"
                             >
                                 Adicionar
                             </button>
@@ -127,7 +127,7 @@ export default function TodoList({ tasks }) {
                                     key={categoria}
                                     onClick={() => setCurrentFilter(categoria)}
                                     className={`px-4 py-1 rounded-full text-sm font-semibold transition-colors ${currentFilter === categoria
-                                        ? 'bg-indigo-600 text-white shadow-sm' // Botão Ativo (Colorido)
+                                        ? 'bg-pomoblue-600 text-white shadow-sm' // Botão Ativo (Colorido)
                                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200' // Botão Inativo (Cinza)
                                         }`}
                                 >
