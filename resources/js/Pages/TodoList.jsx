@@ -7,10 +7,17 @@ import TaskItem from '@/Components/TaskItem'; //componente dos itens da lista
 // O PHP enviou a variável $tasks, o React recebe ela aqui como propriedade (props)
 export default function TodoList({ tasks }) {
 
+    const [currentFilter, setCurrentFilter] = React.useState('Todas');
+
+    const filteredTasks = tasks.filter(task => {
+        if (currentFilter === 'Todas') return true;
+        return task.category === currentFilter;
+    });
+
     // O useForm é o "motoboy" do Inertia para formulários
     const { data, setData, post, processing, reset } = useForm({
-        title: '', // Cria a variável title começando vazia
-        category: 'Geral', // Cria a variável category começando com o valor padrão
+        title: '', // variável title começando vazia
+        category: 'Geral', // variável category começando com o valor padrão
     });
 
     // captura as mensagens 'flas'h do Laravel (como 'success' ou 'error') para mostrar alertas
@@ -113,8 +120,24 @@ export default function TodoList({ tasks }) {
                             </button>
                         </form>
 
+                        {/* BARRA DE FILTROS */}
+                        <div className="flex flex-wrap gap-2 mb-6 justify-center border-b border-gray-200 pb-4">
+                            {['Todas', 'Geral', 'Trabalho', 'Estudos', 'Casa'].map((categoria) => (
+                                <button
+                                    key={categoria}
+                                    onClick={() => setCurrentFilter(categoria)}
+                                    className={`px-4 py-1 rounded-full text-sm font-semibold transition-colors ${currentFilter === categoria
+                                        ? 'bg-indigo-600 text-white shadow-sm' // Botão Ativo (Colorido)
+                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200' // Botão Inativo (Cinza)
+                                        }`}
+                                >
+                                    {categoria}
+                                </button>
+                            ))}
+                        </div>
+
                         <ul className="space-y-3">
-                            {tasks.map((task) => (
+                            {filteredTasks.map((task) => (
                                 <TaskItem
                                     key={task.id}
                                     task={task}
@@ -123,9 +146,9 @@ export default function TodoList({ tasks }) {
                                 />
                             ))}
 
-                            {tasks.length === 0 && (
+                            {filteredTasks.length === 0 && (
                                 <p className="text-sm text-gray-500 text-center italic">
-                                    Nenhuma tarefa ainda. Adicione a primeira!
+                                    Nenhuma tarefa encontrada para este filtro.
                                 </p>
                             )}
                         </ul>
