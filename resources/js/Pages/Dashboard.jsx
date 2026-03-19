@@ -1,5 +1,3 @@
-// recursos/js/Pages/Dashboard.jsx
-
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
 
@@ -19,7 +17,7 @@ export default function Dashboard({ auth }) {
                     <div className="bg-white p-12 shadow-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center">
 
                         {/* A SUA LOGO AQUI NO TOPO DO PAINEL */}
-                        <img src="/images/logo.png" alt="PomoTDL Logo" className="w-56 mb-16 h-auto" />
+                        <img src="/images/logopomotdl.png" alt="PomoTDL Logo" className="w-56 mb-16 h-auto" />
 
                         <div className="grid md:grid-cols-2 gap-10 w-full max-w-5xl">
 
