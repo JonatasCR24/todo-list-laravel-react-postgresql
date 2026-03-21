@@ -5,15 +5,15 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-white mt-16 border-t border-gray-100">
+        <footer className="bg-white w-full border-t border-gray-100">
             <div className="max-w-7xl mx-auto py-12 px-6 sm:px-8 flex flex-col items-center justify-center text-center">
                 
                 {/* LOGO REDUZIDA NO FOOTER */}
                 <Link href="/" className="mb-6 group">
                     <img 
-                        src="/images/logo.png" 
+                        src="/images/logopomotdl.png" 
                         alt="PomoTDL" 
-                        className="h-10 w-auto transition-opacity group-hover:opacity-80" 
+                        className="h-14 w-auto transition-opacity group-hover:opacity-80" 
                     />
                 </Link>
 

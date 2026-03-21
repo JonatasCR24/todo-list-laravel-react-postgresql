@@ -1,24 +1,32 @@
 import { Link } from '@inertiajs/react';
-
-//componentes:
 import ApplicationLogo from '@/Components/ApplicationLogo';
-
 import Footer from '@/Components/Footer';
-
 
 export default function GuestLayout({ children }) {
     return (
-        <div className="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0">
-            <div>
+        // Removemos o flex do container principal para ele não tentar espremer tudo na mesma tela
+        <div className="bg-gray-50">
+
+            {/* 1. O SEGREDO ESTÁ AQUI: min-h-screen SÓ na parte do formulário.
+                Isso faz o formulário ocupar 100% da tela sozinho e centraliza tudo perfeitamente. */}
+            <main className="flex min-h-screen flex-col items-center justify-center p-6">
+
                 <Link href="/">
-                    <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
+                    <ApplicationLogo className="h-24 w-auto fill-current text-gray-500" />
                 </Link>
+
+                <div className="mt-8 w-full overflow-hidden bg-white px-8 py-10 shadow-xl sm:max-w-md sm:rounded-2xl border border-gray-100">
+                    {children}
+                </div>
+
+            </main>
+
+            {/* 2. Como a <main> de cima já ocupou a tela toda, este Footer fica escondido logo abaixo.
+                O usuário SÓ vai ver se rolar a página para baixo! */}
+            <div className="w-full">
+                <Footer />
             </div>
 
-            <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">
-                {children}
-            </div>
-            <Footer />
         </div>
     );
 }
