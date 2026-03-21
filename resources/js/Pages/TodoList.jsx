@@ -20,7 +20,7 @@ export default function TodoList({ tasks }) {
         category: 'Geral', // variável category começando com o valor padrão
     });
 
-    // captura as mensagens 'flas'h do Laravel (como 'success' ou 'error') para mostrar alertas
+    // captura as mensagens 'flash' do Laravel (como 'success' ou 'error') para mostrar alertas
     const { flash, auth } = usePage().props; // auth é o objeto que tem os dados do usuário autenticado
 
     // fica de olho nas mensagens flash e mostra um alerta usando SweetAlert2 sempre que uma nova mensagem chegar
