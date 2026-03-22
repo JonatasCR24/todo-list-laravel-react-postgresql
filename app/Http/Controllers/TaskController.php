@@ -13,12 +13,6 @@ class TaskController extends Controller
     // Função para MOSTRAR a tela e as tarefas
     public function index()
     {
-        //$tasks = Task::all(); // Equivale a "SELECT * FROM tasks"
-        //$tasks = Task::latest()->get(); // Equivale a "SELECT * FROM tasks ORDER BY created_at DESC"
-
-        
-        //Pega apenas as tarefas do usuário logado, e ordena da mais nova para a mais antiga
-        // Equivale a "SELECT * FROM tasks WHERE user_id = ? ORDER BY created_at DESC"
 
         // 1. Dizemos explicitamente pro VS Code quem é esse usuário
         /** @var \App\Models\User $user */

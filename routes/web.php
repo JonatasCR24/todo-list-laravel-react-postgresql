@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\PomodoroController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -36,10 +37,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/tarefas/{task}', [TaskController::class, 'update']); // Quando ALTERAR o formulário, roda a função update
     Route::delete('/tarefas/{task}', [TaskController::class, 'destroy']); // Quando EXCLUIR uma tarefa, roda a função destroy
 
-    // Rotas para entrar na pagina pomodoro
-    Route::get('/pomodoro', function () {
-        return Inertia::render('Pomodoro');
-    });
+    // Rotas para gerenciar sessões de pomodoro
+
+    Route::get('/pomodoro', [PomodoroController::class, 'index']);
+    Route::post('/pomodoro/session', [PomodoroController::class, 'store'])->name('pomodoro.store');
 });
 
 
