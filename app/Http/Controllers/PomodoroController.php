@@ -14,7 +14,16 @@ class PomodoroController extends Controller
     // function index
     public function index()
     {
-        return Inertia::render('Pomodoro');
+        $userId = Auth::id();
+
+        $totalFocusMinutes = PomodoroSession::where('user_id', $userId)->where('type', 'focus')->sum('duration_minutes');
+
+        $totalSessions = PomodoroSession::where('user_id', $userId)->where('type', 'focus')->count();
+
+        return Inertia::render('Pomodoro', [
+            'totalFocusMinutes' => $totalFocusMinutes,
+            'totalSessions' => $totalSessions,
+        ]);
     }
 
     public function store(Request $request)

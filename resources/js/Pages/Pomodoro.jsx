@@ -4,8 +4,9 @@ import Swal from 'sweetalert2';
 import React, { useEffect } from 'react';
 
 export default function Pomodoro() {
-    // 1. Pegamos o objeto 'auth' de dentro de 'props'
-    const { auth, flash } = usePage().props;
+
+    // o usePage() é um hook do Inertia que nos dá acesso às props enviadas pelo backend.
+    const { auth, flash, totalFocusMinutes, totalSessions } = usePage().props;
 
     // estado do timer (em segundos)
     const [timeLeft, setTimeLeft] = React.useState(25 * 1); // 25 minutos
@@ -39,6 +40,20 @@ export default function Pomodoro() {
         const seconds = totalSeconds % 60;
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
+
+    // funcao para formatar o tempo total focado em horas e minutos
+    const formatTotalTime = (totalMin) => {
+        if (!totalMin) return '0m';
+
+        const hours = Math.floor(totalMin / 60);
+        const minutes = totalMin % 60;
+
+        if (hours > 0) {
+            return `${hours}h ${minutes.toString().padStart(2, '0')}m`;
+        };
+
+        return `${minutes}m`;
+    }
 
     // useEffect para checar pra mandar mensagem
     useEffect(() => {
@@ -111,7 +126,6 @@ export default function Pomodoro() {
     const isPristine = isBreak ? timeLeft === 5 * 60 : timeLeft === 25 * 60;
 
     return (
-        // 2. Passamos o user para o Layout saber quem está logado
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Meu Pomodoro</h2>}
@@ -177,6 +191,27 @@ export default function Pomodoro() {
                                     </svg>
                                 </button>
                             )}
+                        </div>
+
+                        {/* ESTATÍSTICAS DO USUÁRIO */}
+                        <div className="mt-16 pt-8 border-t border-gray-100 w-full flex justify-center gap-16 text-center animate-fade-in-up">
+
+                            <div>
+                                <p className="text-gray-400 text-sm font-semibold tracking-wider uppercase mb-1">Total Focado</p>
+                                <p className="text-3xl font-black text-pomoblue-600">
+                                    {formatTotalTime(totalFocusMinutes)}
+                                </p>
+                            </div>
+
+                            <div>
+                                <p className="text-gray-400 text-sm font-semibold tracking-wider uppercase mb-1">Sessões Concluidas</p>
+                                <p className="text-3xl font-black text-pomoblue-600">
+                                    {totalSessions} <span className="text-lg text-pomoblue-400 font-medium">
+                                        {totalSessions === 1 ? 'sessão' : 'sessões'}
+                                    </span>
+                                </p>
+                            </div>
+
                         </div>
 
                     </div>
