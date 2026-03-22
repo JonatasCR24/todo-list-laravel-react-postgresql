@@ -31,6 +31,6 @@ class PomodoroController extends Controller
             'type' => $request->type,
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Sessão de pomodoro registrada com sucesso!');
     }
 }

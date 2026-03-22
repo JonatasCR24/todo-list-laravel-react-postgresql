@@ -39,7 +39,8 @@ class HandleInertiaRequests extends Middleware
 
             // Isso garante que todas as mensagens 'success' sejam enviadas para o React
             'flash' => [
-                'success' => fn() => $request->session()->get('success')
+                'success' => fn() => $request->session()->get('success'),
+                'error' => fn() => $request->session()->get('error'),
             ],
         ]);
     }

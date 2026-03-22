@@ -1,13 +1,14 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, usePage, router } from '@inertiajs/react';
+import Swal from 'sweetalert2';
 import React, { useEffect } from 'react';
 
 export default function Pomodoro() {
     // 1. Pegamos o objeto 'auth' de dentro de 'props'
-    const { auth } = usePage().props;
+    const { auth, flash } = usePage().props;
 
     // estado do timer (em segundos)
-    const [timeLeft, setTimeLeft] = React.useState(25 * 60); // 25 minutos
+    const [timeLeft, setTimeLeft] = React.useState(25 * 1); // 25 minutos
 
     // estado para saber se o timer está rodando ou não
     const [isRunning, setIsRunning] = React.useState(false);
@@ -16,7 +17,6 @@ export default function Pomodoro() {
     const [isBreak, setIsBreak] = React.useState(false); // false = Foco, true = Descanso
 
     // funcoes de controle 
-
     const toggleTimer = () => {
         setIsRunning(!isRunning);
     }
@@ -40,6 +40,20 @@ export default function Pomodoro() {
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
 
+    // useEffect para checar pra mandar mensagem
+    useEffect(() => {
+        if (flash.success) {
+            Swal.fire({
+                toast: true, // pequeno e no canto
+                position: 'top-end',
+                icon: 'success',
+                title: flash.success,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        }
+    }, [flash]); // o array [flash] diz ao react para monitorar essa variavel
 
     // useEffect para controlar a contagem regressiva
     useEffect(() => {
@@ -81,8 +95,16 @@ export default function Pomodoro() {
         if (timeLeft === 0) {
             const alarme = new Audio('/sounds/alarme.mp3');
             alarme.play().catch(e => console.log("Erro ao tocar o som:", e));
+
+            router.post('/pomodoro/session', {
+                duration_minutes: isBreak ? 5 : 25,
+                type: isBreak ? 'short_break' : 'focus',
+            }, {
+                preserveScroll: true,
+
+            });
         }
-    }, [timeLeft]);
+    }, [timeLeft, isBreak]);
 
 
     // Verifica se o timer está no tempo inicial (25m no foco ou 5m na pausa)
