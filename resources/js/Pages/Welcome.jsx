@@ -4,7 +4,7 @@ export default function Welcome({ auth }) {
     const currentYear = new Date().getFullYear();
     return (
         <>
-            <Head title="PomoTDL - Focus & Tasks" />
+            <Head title="Focus & Tasks" />
 
             <div className="relative min-h-screen bg-gray-50 selection:bg-pomoblue-100 selection:text-pomoblue-800">
 
