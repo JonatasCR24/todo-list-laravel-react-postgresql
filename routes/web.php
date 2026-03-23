@@ -7,6 +7,7 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\PomodoroController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -38,9 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tarefas/{task}', [TaskController::class, 'destroy']); // Quando EXCLUIR uma tarefa, roda a função destroy
 
     // Rotas para gerenciar sessões de pomodoro
-
     Route::get('/pomodoro', [PomodoroController::class, 'index']);
     Route::post('/pomodoro/session', [PomodoroController::class, 'store'])->name('pomodoro.store');
+
+    // Rotas para gerenciar configurações do usuário
+    Route::get('/configuracoes', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::put('/configuracoes', [SettingsController::class, 'update'])->name('settings.update');
 });
 
 
