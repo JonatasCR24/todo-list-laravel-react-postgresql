@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Inertia\Inertia;
 
+use App\Models\UserPreference;
+
 class PomodoroController extends Controller
 {
 
@@ -20,9 +22,12 @@ class PomodoroController extends Controller
 
         $totalSessions = PomodoroSession::where('user_id', $userId)->where('type', 'focus')->count();
 
+        $preferences = UserPreference::where('user_id', $userId)->first();
+
         return Inertia::render('Pomodoro', [
             'totalFocusMinutes' => $totalFocusMinutes,
             'totalSessions' => $totalSessions,
+            'preferences' => $preferences,
         ]);
     }
 
