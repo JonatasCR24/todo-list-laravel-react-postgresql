@@ -5,16 +5,14 @@ import React, { useEffect } from 'react';
 
 export default function Pomodoro() {
 
-    // o usePage() é um hook do Inertia que nos dá acesso às props enviadas pelo backend.
-    const { auth, flash, totalFocusMinutes, totalSessions } = usePage().props;
+    const { auth, flash, totalFocusMinutes, totalSessions, preferences } = usePage().props;
 
-    // estado do timer (em segundos)
-    const [timeLeft, setTimeLeft] = React.useState(25 * 1); // 25 minutos
+    const FOCUS_SECONDS = (preferences?.pomodoro_focus_minutes || 25) * 60;
+    const BREAK_SECONDS = (preferences?.pomodoro_break_minutes || 5) * 60;
 
-    // estado para saber se o timer está rodando ou não
-    const [isRunning, setIsRunning] = React.useState(false);
+    const [timeLeft, setTimeLeft] = React.useState(FOCUS_SECONDS);
 
-    // estado para quebrar para saber se estamos em período de foco ou descanso
+    const [isRunning, setIsRunning] = React.useState(false); // false = parado, true = rodando
     const [isBreak, setIsBreak] = React.useState(false); // false = Foco, true = Descanso
 
     // funcoes de controle 
@@ -24,14 +22,13 @@ export default function Pomodoro() {
 
     const resetTimer = () => {
         setIsRunning(false);
-        // Reseta para 5 ou 25 dependendo de qual modo estamos AGORA
-        setTimeLeft(isBreak ? 5 * 60 : 25 * 60);
+        setTimeLeft(isBreak ? BREAK_SECONDS : FOCUS_SECONDS);
     };
 
     const switchMode = (isBreakMode) => {
         setIsRunning(false); // Sempre pausa por segurança ao trocar de aba
         setIsBreak(isBreakMode); // Aceita o true ou false que veio do botão
-        setTimeLeft(isBreakMode ? 5 * 60 : 25 * 60); // Se for pausa, 5 min. Se não, 25 min.
+        setTimeLeft(isBreakMode ? BREAK_SECONDS : FOCUS_SECONDS);
     };
 
     // funcao formatTime para mostrar o tempo no formato MM:SS
@@ -122,8 +119,8 @@ export default function Pomodoro() {
     }, [timeLeft, isBreak]);
 
 
-    // Verifica se o timer está no tempo inicial (25m no foco ou 5m na pausa)
-    const isPristine = isBreak ? timeLeft === 5 * 60 : timeLeft === 25 * 60;
+    // Variavel que esconde o botao de reset
+    const isPristine = isBreak ? timeLeft === BREAK_SECONDS : timeLeft === FOCUS_SECONDS;
 
     return (
         <AuthenticatedLayout

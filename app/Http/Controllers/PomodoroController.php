@@ -22,7 +22,7 @@ class PomodoroController extends Controller
 
         $totalSessions = PomodoroSession::where('user_id', $userId)->where('type', 'focus')->count();
 
-        $preferences = UserPreference::where('user_id', $userId)->first();
+        $preferences = UserPreference::firstOrCreate(['user_id' => $userId]);
 
         return Inertia::render('Pomodoro', [
             'totalFocusMinutes' => $totalFocusMinutes,
