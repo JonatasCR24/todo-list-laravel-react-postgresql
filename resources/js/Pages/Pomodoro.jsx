@@ -134,7 +134,7 @@ export default function Pomodoro() {
                     {/* CONTAINER MINIMALISTA */}
                     <div className="mx-auto flex flex-col text-center items-center justify-center min-h-[50vh] max-w-lg w-full
                      bg-white rounded-3xl p-6 shadow-xl dark:bg-gray-800 transition-colors 
-                     duration-300 border border-transparent dark:border-gray-700">
+                     duration-300 border border-transparent dark:border-gray-900">
 
                         {/* ABAS DISCRETAS */}
                         <div className="flex gap-8 mb-16 text-lg font-medium text-gray-400">
