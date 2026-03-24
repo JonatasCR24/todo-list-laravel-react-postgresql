@@ -34,7 +34,7 @@ export default function Settings() {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Configurações</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-200">Configurações</h2>}
         >
             <Head title="Configurações - PomoTDL" />
 

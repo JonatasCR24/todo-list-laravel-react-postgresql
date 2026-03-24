@@ -125,34 +125,36 @@ export default function Pomodoro() {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Meu Pomodoro</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-200">Meu Pomodoro</h2>}
         >
             <Head title="Pomodoro" />
             <div className="py-12">
                 <div className="mx-auto max-w-2xl sm:px-6 lg:px-8">
 
                     {/* CONTAINER MINIMALISTA */}
-                    <div className="flex flex-col items-center justify-center min-h-[50vh] bg-white rounded-3xl p-10 shadow-sm">
+                    <div className="mx-auto flex flex-col text-center items-center justify-center min-h-[50vh] max-w-lg w-full
+                     bg-white rounded-3xl p-6 shadow-xl dark:bg-gray-800 transition-colors 
+                     duration-300 border border-transparent dark:border-gray-700">
 
                         {/* ABAS DISCRETAS */}
                         <div className="flex gap-8 mb-16 text-lg font-medium text-gray-400">
                             <button
                                 onClick={() => switchMode(false)}
-                                className={`transition-all pb-2 ${!isBreak ? 'text-gray-900 border-b-2 border-gray-900' : 'hover:text-gray-600'}`}
+                                className={`transition-all pb-2 ${!isBreak ? 'text-gray-900 dark:text-gray-100 border-b-2 border-gray-900 dark:border-gray-100' : 'hover:text-gray-600 dark:hover:text-gray-300'}`}
                             >
                                 Foco
                             </button>
                             <button
                                 onClick={() => switchMode(true)}
-                                className={`transition-all pb-2 ${isBreak ? 'text-gray-900 border-b-2 border-gray-900' : 'hover:text-gray-600'}`}
+                                className={`transition-all pb-2 ${isBreak ? 'text-gray-900 dark:text-gray-100 border-b-2 border-gray-900 dark:border-gray-100' : 'hover:text-gray-600 dark:hover:text-gray-300'}`}
                             >
                                 Descanso
                             </button>
                         </div>
 
                         {/* CRONÔMETRO GIGANTE (text-9xl) */}
-                        <div className="mb-16">
-                            <h1 className="text-9xl font-black text-gray-800 tracking-tighter tabular-nums">
+                        <div className="mb-10">
+                            <h1 className="text-8xl font-black text-gray-800 tracking-tighter tabular-nums dark:text-gray-100">
                                 {formatTime(timeLeft)}
                             </h1>
                         </div>
@@ -163,13 +165,12 @@ export default function Pomodoro() {
                             {/* BOTÃO PLAY/PAUSE REDONDO E SÓLIDO */}
                             <button
                                 onClick={toggleTimer}
-                                className="w-20 h-20 flex items-center justify-center bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-transform active:scale-95 shadow-lg"
+                                className="w-16 h-16 flex items-center justify-center bg-gray-900 text-white rounded-full hover:bg-gray-800 transition-transform active:scale-95 shadow-lg"
                             >
                                 {isRunning ? (
                                     /* Ícone de Pause */
                                     <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" /></svg>
                                 ) : (
-                                    // texto falando medio falando iniciar se for começar um novo cronometro ou voltar se ele tiver sido pausado
                                     <span className="text-sm font-semibold">
                                         {isPristine ? 'Iniciar' : 'Voltar'}
                                     </span>
@@ -194,16 +195,16 @@ export default function Pomodoro() {
                         <div className="mt-16 pt-8 border-t border-gray-100 w-full flex justify-center gap-16 text-center animate-fade-in-up">
 
                             <div>
-                                <p className="text-gray-400 text-sm font-semibold tracking-wider uppercase mb-1">Total Focado</p>
-                                <p className="text-3xl font-black text-pomoblue-600">
+                                <p className="text-gray-400 dark:text-gray-500 text-sm font-semibold tracking-wider uppercase mb-1">Total Focado</p>
+                                <p className="text-3xl font-black text-pomoblue-600 dark:text-pomoblue-400">
                                     {formatTotalTime(totalFocusMinutes)}
                                 </p>
                             </div>
 
                             <div>
-                                <p className="text-gray-400 text-sm font-semibold tracking-wider uppercase mb-1">Sessões Concluidas</p>
-                                <p className="text-3xl font-black text-pomoblue-600">
-                                    {totalSessions} <span className="text-lg text-pomoblue-400 font-medium">
+                                <p className="text-gray-400 dark:text-gray-500 text-sm font-semibold tracking-wider uppercase mb-1">Sessões Concluídas</p>
+                                <p className="text-3xl font-black text-gray-800 dark:text-gray-200">
+                                    {totalSessions} <span className="text-lg text-gray-400 dark:text-gray-500 font-medium">
                                         {totalSessions === 1 ? 'sessão' : 'sessões'}
                                     </span>
                                 </p>

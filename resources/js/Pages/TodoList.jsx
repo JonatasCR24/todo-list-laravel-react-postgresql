@@ -77,7 +77,7 @@ export default function TodoList({ tasks }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Minhas Tarefas</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-200">Minhas Tarefas</h2>}
         >
             <Head title="Minhas Tarefas" />
 

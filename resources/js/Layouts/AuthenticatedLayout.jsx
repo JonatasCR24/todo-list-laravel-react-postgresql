@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 //Componentes:
 import ApplicationLogo from '@/Components/ApplicationLogo';
@@ -10,14 +10,35 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import Footer from '@/Components/Footer';
 
 export default function AuthenticatedLayout({ header, children }) {
+
     const user = usePage().props.auth.user;
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+
+    const [theme, setTheme] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('theme') || 'light';
+        }
+        return 'light';
+    });
+
+    useEffect(() => {
+        const htmlElement = document.documentElement;
+        if (theme === 'dark') {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    };
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="border-b border-gray-100 bg-white">
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+            <nav className="border-b border-gray-100 bg-white dark:bg-gray-800 dark:border-gray-700 transition-colors duration-300">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
@@ -55,7 +76,10 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                className="inline-flex items-center rounded-md border 
+                                                border-transparent px-3 py-2 text-sm font-medium 
+                                                leading-4 text-gray-500 dark:text-gray-400 transition duration-150 ease-in-out 
+                                                hover:text-gray-700 hover:dark:text-gray-300 focus:outline-none"
                                             >
                                                 {user.name}
 
@@ -84,11 +108,25 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <Dropdown.Link href={route('logout')} method="post" as="button">Log Out</Dropdown.Link>
 
                                     </Dropdown.Content>
+
                                 </Dropdown>
                             </div>
+
+                            <button
+                                onClick={toggleTheme}
+                                className="mr-4 p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-full transition-colors focus:outline-none"
+                                title="Alternar Tema"
+                            >
+                                {theme === 'light' ? '🌙' : '☀️'}
+                            </button>
                         </div>
 
                         <div className="-me-2 flex items-center sm:hidden">
+
+                            <button onClick={toggleTheme} className="p-2 text-gray-500 dark:text-gray-400">
+                                {theme === 'light' ? '🌙' : '☀️'}
+                            </button>
+
                             <button
                                 onClick={() =>
                                     setShowingNavigationDropdown(
@@ -178,7 +216,7 @@ export default function AuthenticatedLayout({ header, children }) {
             </nav>
 
             {header && (
-                <header className="bg-white shadow">
+                <header className="bg-white dark:bg-gray-800 shadow transition-colors duration-300">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         {header}
                     </div>
