@@ -86,9 +86,9 @@ export default function TodoList({ tasks }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-center">
 
                     {/* AQUI COMEÇA O SEU QUADRADO BRANCO EXATAMENTE COMO ERA */}
-                    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl">
-                        <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
-                            Lista de Tarefas (Laravel Sail + React + PostgreSQL)
+                    <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl dark:border-gray-900 dark:bg-gray-800 transition-colors duration-300">
+                        <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 text-center mb-6">
+                            Lista de Tarefas (Minha Lista de Tarefa)
                         </h1>
 
                         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 mb-6">
@@ -97,13 +97,13 @@ export default function TodoList({ tasks }) {
                                 value={data.title}
                                 onChange={(e) => setData('title', e.target.value)}
                                 placeholder="O que você precisa fazer?"
-                                className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
+                                className="flex-1 dark:text-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
                                 required
                             />
                             <select
                                 value={data.category}
                                 onChange={(e) => setData('category', e.target.value)}
-                                className="w-full sm:w-auto border-gray-300 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
+                                className="w-full dark:text-gray-300 sm:w-auto dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
                             >
                                 <option value="Geral">Geral</option>
                                 <option value="Trabalho">Trabalho</option>
@@ -121,14 +121,14 @@ export default function TodoList({ tasks }) {
                         </form>
 
                         {/* BARRA DE FILTROS */}
-                        <div className="flex flex-wrap gap-2 mb-6 justify-center border-b border-gray-200 pb-4">
+                        <div className="flex flex-wrap gap-2 mb-6 justify-center border-b border-gray-200 dark:border-gray-600 pb-4">
                             {['Todas', 'Geral', 'Trabalho', 'Estudos', 'Casa'].map((categoria) => (
                                 <button
                                     key={categoria}
                                     onClick={() => setCurrentFilter(categoria)}
                                     className={`px-4 py-1 rounded-full text-sm font-semibold transition-colors ${currentFilter === categoria
                                         ? 'bg-pomoblue-600 text-white shadow-sm' // Botão Ativo (Colorido)
-                                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200' // Botão Inativo (Cinza)
+                                        : 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300 hover:bg-gray-200' // Botão Inativo (Cinza)
                                         }`}
                                 >
                                     {categoria}

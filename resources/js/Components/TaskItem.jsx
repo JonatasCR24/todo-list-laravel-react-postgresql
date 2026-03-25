@@ -26,7 +26,7 @@ export default function TaskItem({ task, toggleComplete, deleteTask }) {
     };
 
     return (
-        <li className="p-3 bg-gray-50 border border-gray-200 rounded-md flex gap-3 items-center w-full min-h-[56px]">
+        <li className="p-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md flex gap-3 items-center w-full min-h-[56px]">
 
             {/* O NOSSO CHECKBOX VOLTOU AQUI! */}
             {!isEditing && (
@@ -46,13 +46,13 @@ export default function TaskItem({ task, toggleComplete, deleteTask }) {
                         type="text"
                         value={editTitle}
                         onChange={(e) => setEditTitle(e.target.value)}
-                        className="flex-1 border-gray-300 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500 text-gray-700 p-1"
+                        className="flex-1 dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500 text-gray-700 dark:text-gray-300 p-1"
                         autoFocus
                     />
                     <select
                         value={editCategory}
                         onChange={(e) => setEditCategory(e.target.value)}
-                        className="border-gray-300 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500 text-sm p-1"
+                        className="border-gray-300 dark:bg-gray-900 dark:border-gray-800 dark:text-gray-300 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500 text-sm p-1"
                     >
                         <option value="Geral">Geral</option>
                         <option value="Trabalho">Trabalho</option>
@@ -63,12 +63,12 @@ export default function TaskItem({ task, toggleComplete, deleteTask }) {
             ) : (
                 // MODO LEITURA: Mostra o título e a etiqueta (badge) da categoria
                 <div className="flex-1 flex items-center justify-between gap-4">
-                    <span className={`break-all ${task.is_completed ? "line-through text-gray-400" : "text-gray-700"}`}>
+                    <span className={`break-all ${task.is_completed ? "line-through text-gray-400" : "text-gray-700 dark:text-gray-300"}`}>
                         {task.title}
                     </span>
 
                     {/* Aqui está a etiqueta da Categoria! */}
-                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 whitespace-nowrap">
+                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 whitespace-nowrap">
                         {task.category}
                     </span>
                 </div>
@@ -78,7 +78,7 @@ export default function TaskItem({ task, toggleComplete, deleteTask }) {
             <div className="flex gap-2 flex-shrink-0">
                 {isEditing ? (
                     <>
-                        <button onClick={saveEdit} className="text-green-600 hover:text-green-800 font-semibold text-sm px-2">
+                        <button onClick={saveEdit} className="text-green-600 dark:text-green-500 hover:text-green-800 dark:hover:text-green-800 font-semibold text-sm px-2">
                             Salvar
                         </button>
                         <button onClick={cancelEditing} className="text-gray-500 hover:text-gray-700 font-semibold text-sm px-2">
