@@ -42,11 +42,11 @@ export default function Settings() {
                 <div className="mx-auto max-w-2xl sm:px-6 lg:px-8">
 
                     {/* CARD MINIMALISTA DAS CONFIGURAÇÕES */}
-                    <div className="bg-white p-10 shadow-sm sm:rounded-3xl border border-gray-100">
+                    <div className="bg-white p-10 shadow-sm sm:rounded-3xl border border-gray-100 dark:border-gray-900 dark:bg-gray-800 transition-colors duration-300">
 
-                        <div className="mb-8 border-b border-gray-100 pb-5">
-                            <h3 className="text-2xl font-black text-gray-900">⏱️ Preferências do Pomodoro</h3>
-                            <p className="text-gray-500 mt-1">Ajuste a duração das suas sessões de foco e descanso.</p>
+                        <div className="mb-8 border-b border-gray-100 dark:border-gray-200 pb-5">
+                            <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 ">⏱️ Preferências do Pomodoro</h3>
+                            <p className="text-gray-500 mt-1 dark:text-gray-400">Ajuste a duração das suas sessões de foco e descanso.</p>
                         </div>
 
                         {/* O FORMULÁRIO LIGADO AO useForm */}
@@ -54,16 +54,16 @@ export default function Settings() {
 
                             {/* CAMPO: TEMPO DE FOCO */}
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-2">
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                                     Minutos de Foco
                                 </label>
                                 <input
                                     type="number"
                                     min="1"
-                                    max="120"
+                                    max="999"
                                     value={data.pomodoro_focus_minutes}
                                     onChange={(e) => setData('pomodoro_focus_minutes', e.target.value)}
-                                    className="w-full border-gray-300 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3"
+                                    className="w-full dark:bg-gray-900 dark:text-gray-200 border-gray-300 dark:border-gray-700 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3"
                                 />
                                 {/* Mostra o erro de validação do Laravel em vermelho se existir */}
                                 {errors.pomodoro_focus_minutes && <div className="text-red-500 text-sm mt-1">{errors.pomodoro_focus_minutes}</div>}
@@ -71,16 +71,16 @@ export default function Settings() {
 
                             {/* CAMPO: TEMPO DE PAUSA */}
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-2">
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                                     Minutos de Pausa
                                 </label>
                                 <input
                                     type="number"
                                     min="1"
-                                    max="60"
+                                    max="999"
                                     value={data.pomodoro_break_minutes}
                                     onChange={(e) => setData('pomodoro_break_minutes', e.target.value)}
-                                    className="w-full border-gray-300 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3"
+                                    className="w-full dark:bg-gray-900 dark:text-gray-200 border-gray-300 dark:border-gray-700 border-gray-300 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3"
                                 />
                                 {errors.pomodoro_break_minutes && <div className="text-red-500 text-sm mt-1">{errors.pomodoro_break_minutes}</div>}
                             </div>

@@ -14,7 +14,7 @@ export default function Dashboard({ auth }) {
                 <div className="mx-auto max-w-6xl sm:px-6 lg:px-8">
 
                     {/* CONTAINER MINIMALISTA DO PAINEL */}
-                    <div className="bg-white dark:bg-gray-800 p-12 shadow-2xl sm:rounded-3xl border border-gray-100 dark:border-gray-900 flex flex-col items-center">
+                    <div className="bg-white dark:bg-gray-800 p-12 shadow-2xl sm:rounded-3xl border border-gray-100 dark:border-gray-900 flex flex-col items-center transition-colors duration-300">
 
                         {/* A SUA LOGO AQUI NO TOPO DO PAINEL */}
                         <img src="/images/logopomotdl.png" alt="PomoTDL Logo" className="w-56 mb-16 h-auto" />
