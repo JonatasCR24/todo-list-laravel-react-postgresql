@@ -88,7 +88,7 @@ export default function TodoList({ tasks }) {
                     {/* AQUI COMEÇA O SEU QUADRADO BRANCO EXATAMENTE COMO ERA */}
                     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl dark:border-gray-900 dark:bg-gray-800 transition-colors duration-300">
                         <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 text-center mb-6">
-                            Lista de Tarefas (Minha Lista de Tarefa)
+                            Lista de Tarefas (Minha Lista de Tarefas)
                         </h1>
 
                         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 mb-6">

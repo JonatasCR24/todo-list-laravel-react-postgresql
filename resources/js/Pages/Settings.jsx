@@ -63,7 +63,7 @@ export default function Settings() {
                                     max="999"
                                     value={data.pomodoro_focus_minutes}
                                     onChange={(e) => setData('pomodoro_focus_minutes', e.target.value)}
-                                    className="w-full dark:bg-gray-900 dark:text-gray-200 border-gray-300 dark:border-gray-700 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3"
+                                    className="w-full dark:bg-gray-900 dark:text-gray-200 border-gray-300 dark:border-gray-800 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3"
                                 />
                                 {/* Mostra o erro de validação do Laravel em vermelho se existir */}
                                 {errors.pomodoro_focus_minutes && <div className="text-red-500 text-sm mt-1">{errors.pomodoro_focus_minutes}</div>}
@@ -80,7 +80,7 @@ export default function Settings() {
                                     max="999"
                                     value={data.pomodoro_break_minutes}
                                     onChange={(e) => setData('pomodoro_break_minutes', e.target.value)}
-                                    className="w-full dark:bg-gray-900 dark:text-gray-200 border-gray-300 dark:border-gray-700 border-gray-300 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3"
+                                    className="w-full dark:bg-gray-900 dark:text-gray-200 border-gray-300 dark:border-gray-800 border-gray-300 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3"
                                 />
                                 {errors.pomodoro_break_minutes && <div className="text-red-500 text-sm mt-1">{errors.pomodoro_break_minutes}</div>}
                             </div>

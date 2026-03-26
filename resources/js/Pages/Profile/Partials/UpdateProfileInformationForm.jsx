@@ -27,22 +27,22 @@ export default function UpdateProfileInformation({
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Profile Information
+                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    Informações do perfil
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
+                <p className="mt-1 text-sm text-gray-600 dark:text-gray-500">
+                    Atualize as informações do perfil e o endereço de e-mail da sua conta.
                 </p>
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="name" value="Nome" className="dark:text-gray-300" />
 
                     <TextInput
                         id="name"
-                        className="mt-1 block w-full"
+                        className="mt-1 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-800 block w-full"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
@@ -54,12 +54,12 @@ export default function UpdateProfileInformation({
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="Email" className="dark:text-gray-300" />
 
                     <TextInput
                         id="email"
                         type="email"
-                        className="mt-1 block w-full"
+                        className="mt-1 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-800 block w-full"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
                         required
@@ -93,7 +93,7 @@ export default function UpdateProfileInformation({
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton className="bg-pomoblue-600 hover:bg-pomoblue-700" disabled={processing}>Salvar</PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -103,7 +103,7 @@ export default function UpdateProfileInformation({
                         leaveTo="opacity-0"
                     >
                         <p className="text-sm text-gray-600">
-                            Saved.
+                            Salvo.
                         </p>
                     </Transition>
                 </div>
