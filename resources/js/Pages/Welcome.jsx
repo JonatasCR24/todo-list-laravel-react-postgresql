@@ -1,4 +1,5 @@
 import { Link, Head } from '@inertiajs/react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Welcome({ auth }) {
     const currentYear = new Date().getFullYear();
@@ -18,9 +19,9 @@ export default function Welcome({ auth }) {
                         {auth.user ? (
                             <Link
                                 href={route('dashboard')}
-                                className="font-semibold text-gray-700 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-pomoblue"
+                                className="font-semibold text-gray-700 dark:text-gray-400 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-pomoblue"
                             >
-                                Dashboard
+                                Voltar
                             </Link>
                         ) : (
                             <>
@@ -47,18 +48,18 @@ export default function Welcome({ auth }) {
                 <div className="relative flex flex-col items-center pb-10 justify-center min-h-[80vh] px-6">
 
                     {/* CAIXA BRANCA MINIMALISTA - IGUAL AO POMODORO */}
-                    <div className="bg-white p-16 shadow-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center max-w-4xl w-full">
+                    <div className="bg-white p-16 shadow-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center max-w-4xl w-full dark:bg-gray-800 dark:border-gray-900 transition-colors duration-300">
 
                         {/* LOGO GIGANTE NO CENTRO */}
-                        <img src="/images/logopomotdl.png" alt="PomoTDL Logo" className="w-64 h-auto mb-16" />
+                        <ApplicationLogo className="block h-60 w-auto fill-current text-gray-800 mb-6" />
 
-                        <h1 className="text-6xl font-black text-gray-900 tracking-tighter mb-6">
+                        <h1 className="text-6xl font-black text-gray-900 dark:text-gray-200 tracking-tighter mb-6">
                             Organize suas tarefas.<br />
                             Garanta sua <span className="text-pomoblue-600">concentração</span>.
                         </h1>
 
-                        <p className="text-xl text-gray-600 mb-12 max-w-2xl">
-                            PomoTDL une o melhor dos dois mundos: uma lista de afazeres simples e o clássico cronômetro Pomodoro de 25 minutos. Fique focado e produza mais, sem distrações.
+                        <p className="text-xl text-gray-600 dark:text-gray-500 mb-12 max-w-2xl">
+                            PomoTDL une o melhor dos dois mundos: uma lista de afazeres simples e o clássico cronômetro Pomodoro personalizado. Fique focado e produza mais, sem distrações.
                         </p>
 
                         <div className="flex gap-6">
@@ -76,44 +77,44 @@ export default function Welcome({ auth }) {
             </div>
 
             <footer className="bg-white w-full border-t border-gray-100 dark:bg-gray-900 dark:border-gray-800">
-                        <div className="max-w-7xl mx-auto py-12 px-6 sm:px-8 flex flex-col items-center justify-center text-center">
-            
-                            {/* LOGO REDUZIDA NO FOOTER */}
-                            <Link href="/" className="mb-6 group">
-                                <img
-                                    src="/images/logo.png"
-                                    alt="PomoTDL"
-                                    className="h-14 w-auto transition-opacity group-hover:opacity-80"
-                                />
-                            </Link>
-            
-                            {/* SLOGAN CURTO */}
-                            <p className="text-lg font-bold text-gray-900 dark:text-gray-300 tracking-tight">
-                                Foque em realizar.
-                            </p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm mb-8">
-                                A ferramenta que une gestão de tarefas com a técnica de foco Pomodoro.
-                            </p>
-            
-                            {/* LINKS MINIMALISTAS */}
-                            <div className="flex flex-wrap gap-x-8 gap-y-3 justify-center mb-8 text-sm font-medium text-gray-600 dark:text-gray-300">
-                                <Link href="/pomodoro" className="hover:text-pomoblue-700">O Pomodoro</Link>
-                                <Link href="/tarefas" className="hover:text-pomoblue-700">Lista de Tarefas</Link>
-                                <Link href="#" className="hover:text-pomoblue-700">Ajuda</Link>
-                                <Link href="#" className="hover:text-pomoblue-700">Termos de Uso</Link>
-                                <Link href="#" className="hover:text-pomoblue-700">Privacidade</Link>
-                            </div>
-            
-                            {/* COPYRIGHT E MARCA */}
-                            <div className="border-t border-gray-100 w-full pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400 dark:text-gray-400 gap-3">
-                                <p>&copy; {currentYear} PomoTDL Co. Todos os direitos reservados.</p>
-                                <p className="font-semibold flex gap-1.5 items-center">
-                                    Um projeto de produtividade ®️ Jonatas.
-                                </p>
-                            </div>
-            
-                        </div>
-                    </footer>
+                <div className="max-w-7xl mx-auto py-12 px-6 sm:px-8 flex flex-col items-center justify-center text-center">
+
+                    {/* LOGO REDUZIDA NO FOOTER */}
+                    <Link href="/" className="mb-6 group">
+                        <img
+                            src="/images/logo.png"
+                            alt="PomoTDL"
+                            className="h-14 w-auto transition-opacity group-hover:opacity-80"
+                        />
+                    </Link>
+
+                    {/* SLOGAN CURTO */}
+                    <p className="text-lg font-bold text-gray-900 dark:text-gray-300 tracking-tight">
+                        Foque em realizar.
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm mb-8">
+                        A ferramenta que o seu foco e o seu trabalho necessitam.
+                    </p>
+
+                    {/* LINKS MINIMALISTAS */}
+                    <div className="flex flex-wrap gap-x-8 gap-y-3 justify-center mb-8 text-sm font-medium text-gray-600 dark:text-gray-300">
+                        <Link href="/pomodoro" className="hover:text-pomoblue-700">O Pomodoro</Link>
+                        <Link href="/tarefas" className="hover:text-pomoblue-700">Lista de Tarefas</Link>
+                        <Link href="#" className="hover:text-pomoblue-700">Ajuda</Link>
+                        <Link href="#" className="hover:text-pomoblue-700">Termos de Uso</Link>
+                        <Link href="#" className="hover:text-pomoblue-700">Privacidade</Link>
+                    </div>
+
+                    {/* COPYRIGHT E MARCA */}
+                    <div className="border-t border-gray-100 w-full pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400 dark:text-gray-400 gap-3">
+                        <p>&copy; {currentYear} PomoTDL Co. Todos os direitos reservados.</p>
+                        <p className="font-semibold flex gap-1.5 items-center">
+                            Um projeto de produtividade ®️ Jonatas.
+                        </p>
+                    </div>
+
+                </div>
+            </footer>
         </>
     );
 }

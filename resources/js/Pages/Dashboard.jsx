@@ -15,7 +15,7 @@ export default function Dashboard({ auth }) {
                 <div className="mx-auto max-w-6xl sm:px-6 lg:px-8">
 
                     {/* CONTAINER MINIMALISTA DO PAINEL */}
-                    <div className="bg-white dark:bg-gray-800 p-12 shadow-2xl sm:rounded-3xl border border-gray-100 dark:border-gray-900 flex flex-col items-center transition-colors duration-300">
+                    <div className="bg-white p-12 shadow-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center dark:bg-gray-800 dark:border-gray-900 transition-colors duration-300">
 
                         {/* A SUA LOGO AQUI NO TOPO DO PAINEL */}
                         <ApplicationLogo className="block h-60 w-auto fill-current text-gray-800 mb-6" />
