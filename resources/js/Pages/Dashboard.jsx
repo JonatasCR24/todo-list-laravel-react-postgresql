@@ -1,5 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Dashboard({ auth }) {
 
@@ -17,7 +18,7 @@ export default function Dashboard({ auth }) {
                     <div className="bg-white dark:bg-gray-800 p-12 shadow-2xl sm:rounded-3xl border border-gray-100 dark:border-gray-900 flex flex-col items-center transition-colors duration-300">
 
                         {/* A SUA LOGO AQUI NO TOPO DO PAINEL */}
-                        <img src="/images/logopomotdl.png" alt="PomoTDL Logo" className="w-56 mb-16 h-auto" />
+                        <ApplicationLogo className="block h-60 w-auto fill-current text-gray-800 mb-6" />
 
                         <div className="grid md:grid-cols-2 gap-10 w-full max-w-5xl">
 

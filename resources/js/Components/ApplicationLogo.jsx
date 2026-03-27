@@ -1,10 +1,22 @@
-export default function ApplicationLogo({ className = '' }) {
+export default function ApplicationLogo(props) {
     return (
-        // Substituímos o SVG cubico pela sua logo real
-        <img
-            src="/images/logo.png"
-            alt="PomoTDL Logo"
-            className={`h-20 w-auto ${className}`} // Usamos a className que o Layout passar (geralmente h-20)
-        />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 227 227" {...props}>
+
+            {/* Quadrado e Letra P (Ajustados para camelCase no React) */}
+            <path d="m30.27 6.79h161.9v172.1h-161.9v-172.1z" fill="#0033E5" stroke="#004BCC" strokeMiterlimit="10" strokeWidth=".75" />
+            <path d="m47.83 29v18.34l9.44 0.01v109.9h24.65v-110.1h30.99c19.26 0 32.62 16.87 32.62 32.7 0 16.12-13.31 32.89-32.62 32.89h-17.51v30.27c-5.52 0-9.33-10.11-9.33-10.11v16.93l29.82-0.37c29.03-2.27 56.27-26.58 55.99-60.45-0.27-30.95-24.82-60.27-58.81-60.27l-65.24 0.34z" fill="#FEFFFE" stroke="#004BCC" strokeMiterlimit="10" strokeWidth="1.2" />
+            <path d="m94.89 59.9h18.77c11.25 0 19.47 10.81 19.47 19.83 0 10.33-8.95 20.98-20.45 20.98h-17.79v-40.81z" fill="#FEFFFE" stroke="#004BCC" strokeMiterlimit="10" strokeWidth=".75" />
+
+            {/* Texto POMOTDL - Trocamos o fill="#000" pela classe do Tailwind para o Dark Mode! */}
+            <g className="fill-gray-900 dark:fill-white transition-colors duration-300">
+                <path d="m29.48 193v26.94h6.8v-8.1h4.49c7.1 0 9.34-4.78 9.34-9.11 0-5.63-3.63-9-9.13-9l-11.5-0.73zm6.8 6.15h3.8c3.12 0 3.79 1.4 3.79 3.36 0 2.32-1.72 3.66-3.45 3.66h-4.14v-7.02z" />
+                <path d="m63.95 192.4c-8.07 0-12.66 7.63-12.66 13.73 0 7.02 5.77 14.27 13.32 14.27 8.04 0 13.45-7.11 13.45-13.91 0-6.56-5.25-14.09-14.11-14.09zm0.44 6.77c4.94 0 6.69 5.08 6.69 7.71 0 3.79-2.49 7.4-6.4 7.4-4.37 0-6.66-4.11-6.66-7.62 0-3.33 2.15-7.49 6.37-7.49z" />
+                <path d="m79.41 193.2-0.13 26.6h6.74l0.25-12.06 5.72 9.35h3.11l5.11-9.69-0.2 12.4h6.75l0.1-26.93h-6.32l-7.25 14.61-8.33-14.61-5.55 0.33z" />
+                <path d="m119.7 192c-8.99 0-12.22 8.23-12.22 14.33 0 7.02 4.77 14.08 12.79 14.08 8.5 0 13.63-7.81 13.63-14.32 0-6.56-5.34-14.09-14.2-14.09zm0.44 6.77c4.96 0 7.18 5.02 7.18 7.65 0 3.79-2.44 7.77-6.35 7.77-4.37 0-6.76-4-6.76-7.92 0-3.05 2.17-7.5 5.93-7.5z" />
+                <path d="m132.3 193v6.46h6.8v20.35h6.74v-20h6.09v-6.81h-19.63z" />
+                <path d="m153.9 193.3v26.69l11.36-0.02c8.86 0 12.06-7.83 12.06-13.55 0-6.03-4.56-13.12-12.35-13.12h-11.07zm7.11 6.08h4.17c4.96 0 6.54 4.83 6.54 7.12 0 4.13-2.51 7.39-6.06 7.39h-4.65v-14.51z" />
+                <path d="m178.9 193.3v26.63h19v-6.74h-12.26v-19.89h-6.74z" />
+            </g>
+        </svg>
     );
 }
