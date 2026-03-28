@@ -106,7 +106,7 @@ export default function Welcome({ auth }) {
                     </div>
 
                     {/* COPYRIGHT E MARCA */}
-                    <div className="border-t border-gray-100 w-full pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400 dark:text-gray-400 gap-3">
+                    <div className="border-t border-gray-100 dark:border-gray-700 w-full pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400 dark:text-gray-400 gap-3">
                         <p>&copy; {currentYear} PomoTDL Co. Todos os direitos reservados.</p>
                         <p className="font-semibold flex gap-1.5 items-center">
                             Um projeto de produtividade ®️ Jonatas.

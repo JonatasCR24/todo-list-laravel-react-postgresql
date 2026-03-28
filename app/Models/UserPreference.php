@@ -9,7 +9,13 @@ class UserPreference extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'pomodoro_focus_minutes', 'pomodoro_break_minutes'];
+    protected $fillable = [
+        'user_id', 
+        'pomodoro_focus_minutes', 
+        'pomodoro_break_minutes',
+        'lofi_focus_id',
+        'lofi_break_id'
+        ];
 
     public function user()
     {

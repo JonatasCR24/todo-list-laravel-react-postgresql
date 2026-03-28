@@ -22,7 +22,7 @@ export default function Footer() {
                     Foque em realizar.
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 max-w-sm mb-8">
-                    A ferramenta que une gestão de tarefas com a técnica de foco Pomodoro.
+                    A ferramenta que o seu foco e o seu trabalho necessitam.
                 </p>
 
                 {/* LINKS MINIMALISTAS */}
@@ -35,7 +35,7 @@ export default function Footer() {
                 </div>
 
                 {/* COPYRIGHT E MARCA */}
-                <div className="border-t border-gray-100 w-full pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400 dark:text-gray-400 gap-3">
+                <div className="border-t border-gray-100 dark:border-gray-700 w-full pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400 dark:text-gray-400 gap-3">
                     <p>&copy; {currentYear} PomoTDL Co. Todos os direitos reservados.</p>
                     <p className="font-semibold flex gap-1.5 items-center">
                         Um projeto de produtividade ®️ Jonatas.

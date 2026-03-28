@@ -36,7 +36,7 @@ export default function Dashboard({ auth }) {
                                 <span className="text-5xl">⏱️</span>
                                 <div>
                                     <h3 className="font-bold text-2xl text-gray-900 dark:text-gray-300 group-hover:text-pomoblue-700">Foco & Pomodoro</h3>
-                                    <p className="text-gray-500 dark:text-gray-400 mt-1">Inicie sessões de 25 minutos para garantir concentração total e gerenciar seu tempo.</p>
+                                    <p className="text-gray-500 dark:text-gray-400 mt-1">Inicie sessões personalizadas para garantir concentração total e gerenciar seu tempo.</p>
                                 </div>
                             </Link>
 
