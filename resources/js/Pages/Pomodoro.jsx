@@ -11,9 +11,10 @@ export default function Pomodoro() {
     const BREAK_SECONDS = (preferences?.pomodoro_break_minutes || 5) * 60;
 
     const [timeLeft, setTimeLeft] = React.useState(FOCUS_SECONDS);
-
     const [isRunning, setIsRunning] = React.useState(false); // false = parado, true = rodando
     const [isBreak, setIsBreak] = React.useState(false); // false = Foco, true = Descanso
+
+    const [showLofi, setShowLofi] = React.useState(false); // false = radio não visível
 
     // funcoes de controle 
     const toggleTimer = () => {
@@ -136,7 +137,7 @@ export default function Pomodoro() {
                      bg-white rounded-3xl p-6 shadow-xl dark:bg-gray-800 transition-colors duration-300 border border-transparent dark:border-gray-900">
 
                         {/* ABAS DISCRETAS */}
-                        <div className="flex gap-8 mb-16 text-lg font-medium text-gray-400">
+                        <div className="flex gap-8 mb-14 text-lg font-medium text-gray-400">
                             <button
                                 onClick={() => switchMode(false)}
                                 className={`transition-all pb-2 ${!isBreak ? 'text-gray-900 dark:text-gray-100 border-b-2 border-gray-900 dark:border-gray-100' : 'hover:text-gray-600 dark:hover:text-gray-300'}`}
@@ -152,14 +153,14 @@ export default function Pomodoro() {
                         </div>
 
                         {/* CRONÔMETRO GIGANTE (text-9xl) */}
-                        <div className="mb-10">
+                        <div className="mb-8">
                             <h1 className="text-8xl font-black text-gray-800 tracking-tighter tabular-nums dark:text-gray-100">
                                 {formatTime(timeLeft)}
                             </h1>
                         </div>
 
                         {/* CONTROLES */}
-                        <div className="flex items-center gap-8 h-20">
+                        <div className="flex items-center gap-8 h-18">
 
                             {/* BOTÃO PLAY/PAUSE REDONDO E SÓLIDO */}
                             <button
@@ -191,7 +192,7 @@ export default function Pomodoro() {
                         </div>
 
                         {/* ESTATÍSTICAS DO USUÁRIO */}
-                        <div className="mt-16 pt-8 border-t border-gray-100 w-full flex justify-center gap-16 text-center animate-fade-in-up">
+                        <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-700 w-full flex justify-center gap-16 text-center animate-fade-in-up">
 
                             <div>
                                 <p className="text-gray-400 dark:text-gray-500 text-sm font-semibold tracking-wider uppercase mb-1">Total Focado</p>
@@ -211,6 +212,34 @@ export default function Pomodoro() {
 
                         </div>
 
+                        {/* SESSÃO RÁDIO LOFI */}
+                        <div className="mt-12 pt-8 border-t border-gray-100 dark:border-gray-700 w-full flex flex-col items-center animate-fade-in-up transition-colors duration-300">
+
+                            {/* Botão de Ligar/Desligar a Rádio */}
+                            <button
+                                onClick={() => setShowLofi(!showLofi)}
+                                className="flex items-center gap-2 text-gray-400 hover:text-pomoblue-600 dark:text-gray-500 dark:hover:text-pomoblue-400 transition-colors font-semibold tracking-wide uppercase text-sm mb-6"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>
+                                {showLofi ? 'Esconder Rádio' : 'Ouvir Rádio'}
+                            </button>
+
+                            {/* O Player do YouTube (Aparece apenas se showLofi for true) */}
+                            {showLofi && (
+                                <div className="w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700 bg-black animate-fade-in-up">
+                                    <iframe
+                                        width="100%"
+                                        height="120" // Altura pequena para ficar discreto como um player de rádio hv1nIidG7S8 jfKfPfyJRdk
+                                        src={`https://www.youtube.com/embed/${isBreak ? 'hv1nIidG7S8' : 'jfKfPfyJRdk'}?autoplay=1`}
+                                        title="Lofi Girl Radio"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    ></iframe>
+                                </div>
+                            )}
+
+                        </div>
                     </div>
 
                 </div>
