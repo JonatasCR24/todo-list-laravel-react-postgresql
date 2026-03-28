@@ -10,6 +10,8 @@ export default function Settings() {
     const { data, setData, put, processing, errors } = useForm({
         pomodoro_focus_minutes: preferences?.pomodoro_focus_minutes || 25,
         pomodoro_break_minutes: preferences?.pomodoro_break_minutes || 5,
+        lofi_focus_id: preferences?.lofi_focus_id || '',
+        lofi_break_id: preferences?.lofi_break_id || '',
     });
 
     useEffect(() => {
@@ -29,6 +31,21 @@ export default function Settings() {
     const submit = (e) => {
         e.preventDefault(); // Evita que a página recarregue
         put('/configuracoes');
+    };
+
+    //funcao para pegar só o id do youtube (pra ser a prova do usuário burro)
+
+    const extractYouTubeID = (input) => {
+        if (!input) return '';
+
+        // se o usuário for inteligente:
+        if (/^[a-zA-Z0-9_-]{11}$/.test(input)) return input;
+
+        // se o usuário for burro:
+        const match = input.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?\s]{11})/);
+
+        // Retorna o ID encontrado. Se não achar nada de útil, retorna o que foi digitado mesmo
+        return match ? match[1] : input;
     };
 
     return (
@@ -83,6 +100,44 @@ export default function Settings() {
                                     className="w-full dark:bg-gray-900 dark:text-gray-200 border-gray-300 dark:border-gray-800 border-gray-300 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3"
                                 />
                                 {errors.pomodoro_break_minutes && <div className="text-red-500 text-sm mt-1">{errors.pomodoro_break_minutes}</div>}
+                            </div>
+
+                            {/* DIVISÓRIA VISUAL */}
+                            <div className="pt-6 pb-2 border-t border-gray-100 dark:border-gray-700 mt-6">
+                                <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">🎵 Trilhas Sonoras (YouTube)</h3>
+                                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                                    Cole apenas o <b>ID do vídeo</b>. Exemplo: no link youtube.com/watch?v=<b>jfKfPfyJRdk</b>, o ID é a parte em negrito. Deixe em branco para usar o padrão.
+                                </p>
+                            </div>
+
+                            {/* CAMPO: LOFI DE FOCO */}
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                    ID do Vídeo para Foco
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Ex: jfKfPfyJRdk"
+                                    value={data.lofi_focus_id}
+                                    onChange={(e) => setData('lofi_focus_id', extractYouTubeID(e.target.value))}
+                                    className="w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3 transition-colors"
+                                />
+                                {errors.lofi_focus_id && <div className="text-red-500 text-sm mt-1">{errors.lofi_focus_id}</div>}
+                            </div>
+
+                            {/* CAMPO: LOFI DE DESCANSO */}
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">
+                                    ID do Vídeo para Descanso
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Ex: hv1nIidG7S8"
+                                    value={data.lofi_break_id}
+                                    onChange={(e) => setData('lofi_break_id', extractYouTubeID(e.target.value))}
+                                    className="w-full bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-3 transition-colors"
+                                />
+                                {errors.lofi_break_id && <div className="text-red-500 text-sm mt-1">{errors.lofi_break_id}</div>}
                             </div>
 
                             {/* BOTÃO DE SALVAR */}

@@ -10,6 +10,9 @@ export default function Pomodoro() {
     const FOCUS_SECONDS = (preferences?.pomodoro_focus_minutes || 25) * 60;
     const BREAK_SECONDS = (preferences?.pomodoro_break_minutes || 5) * 60;
 
+    const LOFI_FOCUS = preferences?.lofi_focus_id || 'jfKfPfyJRdk';
+    const LOFI_BREAK = preferences?.lofi_break_id || 'hv1nIidG7S8';
+
     const [timeLeft, setTimeLeft] = React.useState(FOCUS_SECONDS);
     const [isRunning, setIsRunning] = React.useState(false); // false = parado, true = rodando
     const [isBreak, setIsBreak] = React.useState(false); // false = Foco, true = Descanso
@@ -230,7 +233,7 @@ export default function Pomodoro() {
                                     <iframe
                                         width="100%"
                                         height="120" // Altura pequena para ficar discreto como um player de rádio hv1nIidG7S8 jfKfPfyJRdk
-                                        src={`https://www.youtube.com/embed/${isBreak ? 'hv1nIidG7S8' : 'jfKfPfyJRdk'}?autoplay=1`}
+                                        src={`https://www.youtube.com/embed/${isBreak ? LOFI_BREAK : LOFI_FOCUS}?autoplay=1`}
                                         title="Lofi Girl Radio"
                                         frameBorder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
