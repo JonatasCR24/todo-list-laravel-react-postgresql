@@ -36,7 +36,7 @@ class SettingsController extends Controller
 
         $preferences->update([
             'pomodoro_focus_minutes' => $request->pomodoro_focus_minutes,
-            'pomodoro_break_minutes' => $request->pomodoro_focus_minutes,
+            'pomodoro_break_minutes' => $request->pomodoro_break_minutes,
             'lofi_focus_id' => $request->lofi_focus_id,
             'lofi_break_id' => $request->lofi_break_id,
         ]);

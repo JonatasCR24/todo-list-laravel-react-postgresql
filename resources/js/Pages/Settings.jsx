@@ -61,7 +61,7 @@ export default function Settings() {
                     {/* CARD MINIMALISTA DAS CONFIGURAÇÕES */}
                     <div className="bg-white p-10 shadow-sm sm:rounded-3xl border border-gray-100 dark:border-gray-900 dark:bg-gray-800 transition-colors duration-300">
 
-                        <div className="mb-8 border-b border-gray-100 dark:border-gray-200 pb-5">
+                        <div className="mb-8 border-b border-gray-100 dark:border-gray-700 pb-5">
                             <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100 ">⏱️ Preferências do Pomodoro</h3>
                             <p className="text-gray-500 mt-1 dark:text-gray-400">Ajuste a duração das suas sessões de foco e descanso.</p>
                         </div>
