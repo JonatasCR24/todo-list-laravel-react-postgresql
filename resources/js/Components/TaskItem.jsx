@@ -62,15 +62,33 @@ export default function TaskItem({ task, toggleComplete, deleteTask }) {
                 </div>
             ) : (
                 // MODO LEITURA: Mostra o título e a etiqueta (badge) da categoria
-                <div className="flex-1 flex items-center justify-between gap-4">
-                    <span className={`break-all ${task.is_completed ? "line-through text-gray-400" : "text-gray-700 dark:text-gray-300"}`}>
-                        {task.title}
-                    </span>
+                <div className="flex-1 flex flex-col justify-center gap-1">
+                    
+                    <div className="flex items-center justify-between gap-4">
+                        <span className={`break-all ${task.is_completed ? "line-through text-gray-400" : "text-gray-700 dark:text-gray-300"}`}>
+                            {task.title}
+                        </span>
 
-                    {/* Aqui está a etiqueta da Categoria! */}
-                    <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 whitespace-nowrap">
-                        {task.category}
-                    </span>
+                        {/* Aqui está a etiqueta da Categoria Antiga (Mantivemos para não quebrar nada) */}
+                        <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 whitespace-nowrap">
+                            {task.category}
+                        </span>
+                    </div>
+
+                    {/* AQUI ESTÃO AS SUAS NOVAS TAGS CUSTOMIZADAS DA TAREFA! */}
+                    {task.tags && task.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-1">
+                            {task.tags.map(tag => (
+                                <span
+                                    key={tag.id}
+                                    className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded text-white shadow-sm"
+                                    style={{ backgroundColor: tag.color }}
+                                >
+                                    {tag.name}
+                                </span>
+                            ))}
+                        </div>
+                    )}
                 </div>
             )}
 
