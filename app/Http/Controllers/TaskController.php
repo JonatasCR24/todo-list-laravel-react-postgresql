@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Task; // Importamos o nosso Representante do Banco
 use Inertia\Inertia; // Importamos o "Motoboy" do React
+
+use App\Models\Task;
+use App\Models\Tag;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -13,38 +15,37 @@ class TaskController extends Controller
     // Função para MOSTRAR a tela e as tarefas
     public function index()
     {
+        $tasks = Task::where('user_id', Auth::id())->with('tags')->latest()->get();
 
-        // 1. Dizemos explicitamente pro VS Code quem é esse usuário
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        // 2. Agora o VS Code tem certeza absoluta que o $user tem a função tasks()
-        $tasks = $user->tasks()->latest()->get();
-
+        $tags = Tag::where('user_id', Auth::id())->get();
 
         // Manda o React renderizar a tela TodoList e entrega a variável $tasks para ela
         return Inertia::render('TodoList', [
-            'tasks' => $tasks
+            'tasks' => $tasks,
+            'tags' => $tags,
         ]);
     }
 
     public function store(Request $request)
     {
-
         $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'required|string|max:255',
+
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
-        // Dizemos explicitamente pro VS Code quem é esse usuário
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
 
-        // Agora salva a tarefa vinculada a ele sem linhas vermelhas
-        $user->tasks()->create([
+        $task = Task::create([
+            'user_id' => Auth::id(),
             'title' => $request->title,
             'category' => $request->category,
         ]);
+
+        if ($request->has('tags')) {
+            $task->tags()->sync($request->tags);
+        }
 
         return redirect()->back()->with('success', 'Tarefa adicionada com sucesso!');
     }
