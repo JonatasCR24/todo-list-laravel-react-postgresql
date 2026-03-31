@@ -5,7 +5,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import TaskItem from '@/Components/TaskItem'; //componente dos itens da lista
 
 // O PHP enviou a variável $tasks, o React recebe ela aqui como propriedade (props)
-export default function TodoList({ tasks }) {
+export default function TodoList({ tasks, tags }) {
 
     const [currentFilter, setCurrentFilter] = React.useState('Todas');
 
@@ -18,7 +18,16 @@ export default function TodoList({ tasks }) {
     const { data, setData, post, processing, reset } = useForm({
         title: '', // variável title começando vazia
         category: 'Geral', // variável category começando com o valor padrão
+        tags: [],
     });
+
+    const toggleTag = (tagId) => {
+        if (data.tags.includes(tagId)) {
+            setData('tags', data.tags.filter(id => id !== tagId));
+        } else {
+            setData('tags', [...data.tags, tagId]);
+        }
+    };
 
     // captura as mensagens 'flash' do Laravel (como 'success' ou 'error') para mostrar alertas
     const { flash, auth } = usePage().props; // auth é o objeto que tem os dados do usuário autenticado
@@ -111,6 +120,25 @@ export default function TodoList({ tasks }) {
                                 <option value="Casa">Casa</option>
 
                             </select>
+                            {/* NOVO SELETOR DE TAGS */}
+                            {tags && tags.length > 0 && (
+                                <div className="w-full sm:w-auto flex flex-wrap gap-2 items-center">
+                                    {tags.map(tag => (
+                                        <button
+                                            type="button"
+                                            key={tag.id}
+                                            onClick={() => toggleTag(tag.id)}
+                                            className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-200 ${data.tags.includes(tag.id)
+                                                    ? 'text-white shadow-md scale-105'
+                                                    : 'bg-transparent text-gray-500 border-gray-300 dark:border-gray-600 dark:text-gray-400'
+                                                }`}
+                                            style={data.tags.includes(tag.id) ? { backgroundColor: tag.color, borderColor: tag.color } : {}}
+                                        >
+                                            {tag.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
                             <button
                                 type="submit"
                                 disabled={processing}
