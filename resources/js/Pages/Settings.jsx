@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, usePage, useForm } from '@inertiajs/react';
+import { Head, usePage, useForm, router } from '@inertiajs/react';
 import Swal from 'sweetalert2';
 
 export default function Settings() {
 
-    const { auth, preferences, flash } = usePage().props;
+    const { auth, preferences, flash, tags } = usePage().props;
 
     const { data, setData, put, processing, errors } = useForm({
         pomodoro_focus_minutes: preferences?.pomodoro_focus_minutes || 25,
@@ -13,6 +13,25 @@ export default function Settings() {
         lofi_focus_id: preferences?.lofi_focus_id || '',
         lofi_break_id: preferences?.lofi_break_id || '',
     });
+
+    const { data: tagData, setData: setTagData, post: postTag, processing: tagProcessing, errors: tagErrors, reset: resetTag } = useForm({
+        name: '',
+        color: '#3B82F6', // Azul padrão
+    });
+
+    const submitNewTag = (e) => {
+        e.preventDefault();
+        postTag('/tags', {
+            preserveScroll: true, // Não deixa a página pular pro topo
+            onSuccess: () => resetTag('name'), // Limpa o campo de texto se der certo
+        });
+    };
+
+    const deleteTag = (id) => {
+        if (confirm('Tem certeza que deseja excluir esta categoria? As tarefas que a usam não serão apagadas, apenas perderão a etiqueta.')) {
+            router.delete(`/tags/${id}`, { preserveScroll: true });
+        }
+    };
 
     useEffect(() => {
         if (flash.success) {
@@ -152,8 +171,77 @@ export default function Settings() {
                             </div>
                         </form>
 
-                    </div>
+                        {/*GERENCIAR CATEGORIAS (TAGS): */}
 
+                        <div className="border-t border-gray-100 dark:border-gray-800 pt-10">
+                            <div className="mb-6">
+                                <h3 className="text-2xl font-black text-gray-900 dark:text-gray-100">🏷️ Minhas Categorias</h3>
+                                <p className="text-gray-500 mt-1 dark:text-gray-400">Crie etiquetas customizadas para organizar suas tarefas do seu jeito.</p>
+                            </div>
+
+                            {/* FORMULÁRIO DE CRIAR NOVA TAG */}
+                            <form onSubmit={submitNewTag} className="flex flex-col sm:flex-row gap-3 mb-8 bg-gray-50 dark:bg-gray-900/50 p-4 rounded-2xl border border-gray-100 dark:border-gray-800">
+
+                                {/* Input do Nome */}
+                                <input
+                                    type="text"
+                                    placeholder="Nome da categoria (ex: Faculdade)"
+                                    value={tagData.name}
+                                    onChange={(e) => setTagData('name', e.target.value)}
+                                    maxLength="20"
+                                    required
+                                    className="flex-1 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700 focus:border-pomoblue-500 focus:ring-pomoblue-500 rounded-xl shadow-sm px-4 py-2"
+                                />
+
+                                {/* Input da Cor (Color Picker nativo do HTML) */}
+                                <div className="flex items-center gap-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl px-2 shadow-sm">
+                                    <label className="text-sm font-bold text-gray-500 dark:text-gray-400 pl-2">Cor:</label>
+                                    <input
+                                        type="color"
+                                        value={tagData.color}
+                                        onChange={(e) => setTagData('color', e.target.value)}
+                                        className="h-8 w-10 cursor-pointer bg-transparent border-0 p-0"
+                                    />
+                                </div>
+
+                                {/* Botão de Adicionar */}
+                                <button
+                                    type="submit"
+                                    disabled={tagProcessing}
+                                    className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold py-2 px-6 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors shadow-md disabled:opacity-50 whitespace-nowrap"
+                                >
+                                    + Adicionar
+                                </button>
+                            </form>
+                            {tagErrors.name && <div className="text-red-500 text-sm mb-4">{tagErrors.name}</div>}
+
+                            {/* LISTA DAS TAGS EXISTENTES */}
+                            <div className="flex flex-wrap gap-3">
+                                {tags && tags.length > 0 ? (
+                                    tags.map(tag => (
+                                        <div
+                                            key={tag.id}
+                                            className="group flex items-center gap-2 px-3 py-1.5 rounded-lg shadow-sm text-sm font-bold text-white transition-transform hover:-translate-y-0.5"
+                                            style={{ backgroundColor: tag.color }}
+                                        >
+                                            <span>{tag.name}</span>
+
+                                            {/* Botão de Deletar (X) que aparece no Hover */}
+                                            <button
+                                                onClick={() => deleteTag(tag.id)}
+                                                className="ml-1 opacity-60 hover:opacity-100 transition-opacity focus:outline-none bg-black/20 rounded-full w-5 h-5 flex items-center justify-center"
+                                                title="Excluir categoria"
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-gray-500 dark:text-gray-400 italic text-sm">Você ainda não criou nenhuma categoria.</p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>

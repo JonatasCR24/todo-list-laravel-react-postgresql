@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 use Inertia\Inertia;
 
+use App\Models\Tag;
+use App\Models\User;
+
 class SettingsController extends Controller
 {
     public function edit()
@@ -16,8 +19,19 @@ class SettingsController extends Controller
         $userId = Auth::id();
         $preferences = UserPreference::firstOrCreate(['user_id' => $userId]);
 
+        $tags = Tag::where('user_id', $userId)->get();
+
+        if (!$preferences) {
+            $preferences = UserPreference::create([
+                'user_id' => $userId,
+                'pomodoro_focus_minutes' => 25,
+                'pomodoro_break_minutes' => 5,
+            ]);
+        }
+
         return Inertia::render('Settings', [
             'preferences' => $preferences,
+            'tags' => $tags
         ]);
     }
 
