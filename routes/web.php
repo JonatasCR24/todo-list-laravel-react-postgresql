@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\PomodoroController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TagController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -45,6 +46,10 @@ Route::middleware('auth')->group(function () {
     // Rotas para gerenciar configurações do usuário
     Route::get('/configuracoes', [SettingsController::class, 'edit'])->name('settings.edit');
     Route::put('/configuracoes', [SettingsController::class, 'update'])->name('settings.update');
+
+    // Rotas para gerenciar as tags:
+    Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+    Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
 });
 
 
