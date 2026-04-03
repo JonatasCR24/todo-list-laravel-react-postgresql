@@ -2,23 +2,22 @@ import React, { useEffect } from 'react';
 import { Head, useForm, router, usePage } from '@inertiajs/react';
 import Swal from 'sweetalert2';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import TaskItem from '@/Components/TaskItem'; //componente dos itens da lista
+import TaskItem from '@/Components/TaskItem';
 
-// O PHP enviou a variável $tasks, o React recebe ela aqui como propriedade (props)
 export default function TodoList({ tasks, tags }) {
 
     const [currentFilter, setCurrentFilter] = React.useState('Todas');
 
-    const filteredTasks = tasks.filter(task => {
-        if (currentFilter === 'Todas') return true;
-        return task.category === currentFilter;
+    // 1. O FORMULÁRIO LIMPO: Apenas título e array de tags
+    const { data, setData, post, processing, reset } = useForm({
+        title: '',
+        tags: [],
     });
 
-    // O useForm é o "motoboy" do Inertia para formulários
-    const { data, setData, post, processing, reset } = useForm({
-        title: '', // variável title começando vazia
-        category: 'Geral', // variável category começando com o valor padrão
-        tags: [],
+    // 2. FILTRO INTELIGENTE: Varre as tags que vieram do banco
+    const filteredTasks = tasks.filter(task => {
+        if (currentFilter === 'Todas') return true;
+        return task.tags && task.tags.some(t => t.name === currentFilter);
     });
 
     const toggleTag = (tagId) => {
@@ -29,14 +28,12 @@ export default function TodoList({ tasks, tags }) {
         }
     };
 
-    // captura as mensagens 'flash' do Laravel (como 'success' ou 'error') para mostrar alertas
-    const { flash, auth } = usePage().props; // auth é o objeto que tem os dados do usuário autenticado
+    const { flash, auth } = usePage().props;
 
-    // fica de olho nas mensagens flash e mostra um alerta usando SweetAlert2 sempre que uma nova mensagem chegar
     useEffect(() => {
         if (flash.success) {
             Swal.fire({
-                toast: true, // pequeno e no canto
+                toast: true,
                 position: 'top-end',
                 icon: 'success',
                 title: flash.success,
@@ -45,27 +42,23 @@ export default function TodoList({ tasks, tags }) {
                 timerProgressBar: true,
             });
         }
-    }, [flash]); // o array [flash] diz ao react para monitorar essa variavel
+    }, [flash]);
 
-    // Função que roda quando o usuário clica em "Adicionar"
     const handleSubmit = (e) => {
-        e.preventDefault(); // Impede a página de dar F5 sozinha (comportamento padrão do HTML)
-
-        // Envia os dados via POST para a nossa rota do PHP
+        e.preventDefault();
         post('/tarefas', {
-            onSuccess: () => reset('title'), // Se o PHP salvar com sucesso, limpa o campo de texto
+            onSuccess: () => {
+                reset('title');
+                // Opcional: reset('tags') se quiser limpar as tags selecionadas após criar a tarefa
+            },
         });
     };
 
-    // Nova função: Dispara a rota PATCH do Laravel
     const toggleComplete = (id) => {
         router.patch(`/tarefas/${id}`);
     };
 
-
-    // Nova função: Dispara a rota DELETE do Laravel
     const deleteTask = (id) => {
-        // Antes de deletar, mostramos um alerta de confirmação usando SweetAlert2
         Swal.fire({
             title: 'Tem certeza?',
             text: "Você não poderá reverter isso!",
@@ -76,7 +69,6 @@ export default function TodoList({ tasks, tags }) {
             confirmButtonText: 'Deletar',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
-            // Se o usuário clicar em "Sim, delete!", então enviamos a requisição DELETE para o Laravel
             if (result.isConfirmed) {
                 router.delete(`/tarefas/${id}`);
             }
@@ -90,92 +82,102 @@ export default function TodoList({ tasks, tags }) {
         >
             <Head title="Minhas Tarefas" />
 
-            {/* O miolo da página, mantendo o fundo e o espaçamento padrão do sistema */}
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 flex justify-center">
 
-                    {/* AQUI COMEÇA O SEU QUADRADO BRANCO EXATAMENTE COMO ERA */}
                     <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-3xl dark:border-gray-900 dark:bg-gray-800 transition-colors duration-300">
                         <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 text-center mb-6">
-                            Lista de Tarefas (Minha Lista de Tarefas)
+                            Lista de Tarefas
                         </h1>
 
-                        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 mb-6">
-                            <input
-                                type="text"
-                                value={data.title}
-                                onChange={(e) => setData('title', e.target.value)}
-                                placeholder="O que você precisa fazer?"
-                                className="flex-1 dark:text-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
-                                required
-                            />
-                            <select
-                                value={data.category}
-                                onChange={(e) => setData('category', e.target.value)}
-                                className="w-full dark:text-gray-300 sm:w-auto dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
-                            >
-                                <option value="Geral">Geral</option>
-                                <option value="Trabalho">Trabalho</option>
-                                <option value="Estudos">Estudos</option>
-                                <option value="Casa">Casa</option>
+                        {/* FORMULÁRIO REESTRUTURADO */}
+                        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-6">
 
-                            </select>
-                            {/* NOVO SELETOR DE TAGS */}
+                            {/* Linha 1: Input e Botão */}
+                            <div className="flex flex-col sm:flex-row gap-2">
+                                <input
+                                    type="text"
+                                    value={data.title}
+                                    onChange={(e) => setData('title', e.target.value)}
+                                    placeholder="O que você precisa fazer?"
+                                    className="flex-1 dark:text-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
+                                    required
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="w-full sm:w-auto whitespace-nowrap bg-pomoblue-600 hover:bg-pomoblue-700 text-white font-bold py-2 px-6 rounded transition-colors shadow-sm"
+                                >
+                                    Adicionar
+                                </button>
+                            </div>
+
+                            {/* Linha 2: Seletor de Tags (Só aparece se o usuário tiver tags criadas) */}
                             {tags && tags.length > 0 && (
-                                <div className="w-full sm:w-auto flex flex-wrap gap-2 items-center">
+                                <div className="flex flex-wrap gap-2 items-center px-1">
+                                    <span className="text-sm font-bold text-gray-500 dark:text-gray-400 mr-1">Tags:</span>
                                     {tags.map(tag => (
                                         <button
                                             type="button"
                                             key={tag.id}
                                             onClick={() => toggleTag(tag.id)}
-                                            className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-200 ${data.tags.includes(tag.id)
-                                                    ? 'text-white shadow-md scale-105'
-                                                    : 'bg-transparent text-gray-500 border-gray-300 dark:border-gray-600 dark:text-gray-400'
+                                            className={`px-3 py-1 rounded-full text-xs font-bold transition-all duration-200 ${data.tags.includes(tag.id)
+                                                    ? 'text-white shadow-md scale-105 border-transparent'
+                                                    : 'bg-transparent text-gray-500 border border-gray-300 dark:border-gray-600 dark:text-gray-400'
                                                 }`}
-                                            style={data.tags.includes(tag.id) ? { backgroundColor: tag.color, borderColor: tag.color } : {}}
+                                            style={data.tags.includes(tag.id) ? { backgroundColor: tag.color } : {}}
                                         >
                                             {tag.name}
                                         </button>
                                     ))}
                                 </div>
                             )}
-                            <button
-                                type="submit"
-                                disabled={processing}
-                                className="w-full sm:w-auto whitespace-nowrap bg-pomoblue-600 hover:bg-pomoblue-700 text-white font-bold py-2 px-4 rounded transition-colors"
-                            >
-                                Adicionar
-                            </button>
                         </form>
 
-                        {/* BARRA DE FILTROS */}
+                        {/* BARRA DE FILTROS DINÂMICA */}
                         <div className="flex flex-wrap gap-2 mb-6 justify-center border-b border-gray-200 dark:border-gray-600 pb-4">
-                            {['Todas', 'Geral', 'Trabalho', 'Estudos', 'Casa'].map((categoria) => (
+
+                            {/* Botão Fixo "Todas" */}
+                            <button
+                                onClick={() => setCurrentFilter('Todas')}
+                                className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${currentFilter === 'Todas'
+                                        ? 'bg-pomoblue-600 text-white shadow-sm'
+                                        : 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300 hover:bg-gray-200'
+                                    }`}
+                            >
+                                Todas
+                            </button>
+
+                            {/* Botões Dinâmicos: Gerados a partir do banco de dados */}
+                            {tags && tags.map((tag) => (
                                 <button
-                                    key={categoria}
-                                    onClick={() => setCurrentFilter(categoria)}
-                                    className={`px-4 py-1 rounded-full text-sm font-semibold transition-colors ${currentFilter === categoria
-                                        ? 'bg-pomoblue-600 text-white shadow-sm' // Botão Ativo (Colorido)
-                                        : 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300 hover:bg-gray-200' // Botão Inativo (Cinza)
+                                    key={tag.id}
+                                    onClick={() => setCurrentFilter(tag.name)}
+                                    style={currentFilter === tag.name ? { backgroundColor: tag.color, color: 'white' } : {}}
+                                    className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${currentFilter === tag.name
+                                            ? 'shadow-md'
+                                            : 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300 hover:bg-gray-200'
                                         }`}
                                 >
-                                    {categoria}
+                                    {tag.name}
                                 </button>
                             ))}
                         </div>
 
+                        {/* LISTA DE TAREFAS */}
                         <ul className="space-y-3">
                             {filteredTasks.map((task) => (
                                 <TaskItem
                                     key={task.id}
                                     task={task}
+                                    allTags={tags} // 👈 O SEGREDO ESTÁ AQUI: Passamos a lista de tags pro filho!
                                     toggleComplete={toggleComplete}
                                     deleteTask={deleteTask}
                                 />
                             ))}
 
                             {filteredTasks.length === 0 && (
-                                <p className="text-sm text-gray-500 text-center italic">
+                                <p className="text-sm text-gray-500 text-center italic py-4">
                                     Nenhuma tarefa encontrada para este filtro.
                                 </p>
                             )}
