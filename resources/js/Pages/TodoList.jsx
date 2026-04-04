@@ -8,13 +8,12 @@ export default function TodoList({ tasks, tags }) {
 
     const [currentFilter, setCurrentFilter] = React.useState('Todas');
 
-    // 1. O FORMULÁRIO LIMPO: Apenas título e array de tags
     const { data, setData, post, processing, reset } = useForm({
         title: '',
         tags: [],
+        due_date: '',
     });
 
-    // 2. FILTRO INTELIGENTE: Varre as tags que vieram do banco
     const filteredTasks = tasks.filter(task => {
         if (currentFilter === 'Todas') return true;
         return task.tags && task.tags.some(t => t.name === currentFilter);
@@ -49,6 +48,7 @@ export default function TodoList({ tasks, tags }) {
         post('/tarefas', {
             onSuccess: () => {
                 reset('title');
+                reset('due_date');
                 // Opcional: reset('tags') se quiser limpar as tags selecionadas após criar a tarefa
             },
         });
@@ -93,7 +93,7 @@ export default function TodoList({ tasks, tags }) {
                         {/* FORMULÁRIO REESTRUTURADO */}
                         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-6">
 
-                            {/* Linha 1: Input e Botão */}
+                            {/* Linha 1: Input e Data e Botão */}
                             <div className="flex flex-col sm:flex-row gap-2">
                                 <input
                                     type="text"
@@ -103,6 +103,14 @@ export default function TodoList({ tasks, tags }) {
                                     className="flex-1 dark:text-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500"
                                     required
                                 />
+
+                                <input
+                                    type="date"
+                                    value={data.due_date}
+                                    onChange={(e) => setData('due_date', e.target.value)}
+                                    className="w-full sm:w-auto dark:text-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500 cursor-pointer"
+                                />
+
                                 <button
                                     type="submit"
                                     disabled={processing}
@@ -122,8 +130,8 @@ export default function TodoList({ tasks, tags }) {
                                             key={tag.id}
                                             onClick={() => toggleTag(tag.id)}
                                             className={`px-3 py-1 rounded-full text-xs font-bold transition-all duration-200 ${data.tags.includes(tag.id)
-                                                    ? 'text-white shadow-md scale-105 border-transparent'
-                                                    : 'bg-transparent text-gray-500 border border-gray-300 dark:border-gray-600 dark:text-gray-400'
+                                                ? 'text-white shadow-md scale-105 border-transparent'
+                                                : 'bg-transparent text-gray-500 border border-gray-300 dark:border-gray-600 dark:text-gray-400'
                                                 }`}
                                             style={data.tags.includes(tag.id) ? { backgroundColor: tag.color } : {}}
                                         >
@@ -141,8 +149,8 @@ export default function TodoList({ tasks, tags }) {
                             <button
                                 onClick={() => setCurrentFilter('Todas')}
                                 className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${currentFilter === 'Todas'
-                                        ? 'bg-pomoblue-600 text-white shadow-sm'
-                                        : 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300 hover:bg-gray-200'
+                                    ? 'bg-pomoblue-600 text-white shadow-sm'
+                                    : 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300 hover:bg-gray-200'
                                     }`}
                             >
                                 Todas
@@ -155,8 +163,8 @@ export default function TodoList({ tasks, tags }) {
                                     onClick={() => setCurrentFilter(tag.name)}
                                     style={currentFilter === tag.name ? { backgroundColor: tag.color, color: 'white' } : {}}
                                     className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${currentFilter === tag.name
-                                            ? 'shadow-md'
-                                            : 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300 hover:bg-gray-200'
+                                        ? 'shadow-md'
+                                        : 'bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-300 hover:bg-gray-200'
                                         }`}
                                 >
                                     {tag.name}
