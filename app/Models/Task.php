@@ -6,10 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    // Liberamos o user_id para ser salvo no banco
-    protected $fillable = ['title', 'is_completed', 'user_id', 'category'];
+    protected $fillable = [
+        'user_id',
+        'title',
+        'is_completed',
+        'due_date'
+    ];
 
-    // Dizemos ao laravel: "Esta tarefa pertence a um usuário"
+    protected $casts = [
+        'due_date' => 'date',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
