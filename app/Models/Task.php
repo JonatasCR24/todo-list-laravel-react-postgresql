@@ -10,7 +10,8 @@ class Task extends Model
         'user_id',
         'title',
         'is_completed',
-        'due_date'
+        'due_date',
+        'recurrence'
     ];
 
     protected $casts = [
