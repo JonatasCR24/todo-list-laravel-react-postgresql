@@ -69,7 +69,6 @@ export default function Pomodoro() {
         }
     }, [flash]); // o array [flash] diz ao react para monitorar essa variavel
 
-    // useEffect para controlar a contagem regressiva
     useEffect(() => {
         let timerInterval;
 
@@ -104,7 +103,6 @@ export default function Pomodoro() {
         }
     }, [timeLeft, isBreak]);
 
-    // tocar som quando o timer chegar a zero
     useEffect(() => {
         if (timeLeft === 0) {
             const alarme = new Audio('/sounds/alarme.mp3');
