@@ -30,19 +30,17 @@ export default function Pomodoro() {
     };
 
     const switchMode = (isBreakMode) => {
-        setIsRunning(false); // Sempre pausa por segurança ao trocar de aba
-        setIsBreak(isBreakMode); // Aceita o true ou false que veio do botão
+        setIsRunning(false);
+        setIsBreak(isBreakMode);
         setTimeLeft(isBreakMode ? BREAK_SECONDS : FOCUS_SECONDS);
     };
 
-    // funcao formatTime para mostrar o tempo no formato MM:SS
     const formatTime = (totalSeconds) => {
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     };
 
-    // funcao para formatar o tempo total focado em horas e minutos
     const formatTotalTime = (totalMin) => {
         if (!totalMin) return '0m';
 
