@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Inertia\Inertia; // Importamos o "Motoboy" do React
-
+use Inertia\Inertia;
 use App\Models\Task;
 use App\Models\Tag;
-
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class TaskController extends Controller
 {
@@ -36,12 +35,14 @@ class TaskController extends Controller
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
             'due_date' => 'nullable|date',
+            'recurrence' => 'nullable|string|in:none,daily,weekly,monthly',
         ]);
 
         $task = Task::create([
             'user_id' => Auth::id(),
             'title' => $request->title,
             'due_date' => $request->due_date,
+            'recurrence' => $request->recurrence ?? 'none',
         ]);
 
         if ($request->has('tags')) {
@@ -63,11 +64,13 @@ class TaskController extends Controller
                 'tags' => 'nullable|array',
                 'tags.*' => 'exists:tags,id',
                 'due_date' => 'nullable|date',
+                'recurrence' => 'nullable|string|in:none,daily,weekly,monthly',
             ]);
 
             $task->update([
                 'title' => $request->title,
                 'due_date' => $request->due_date,
+                'recurrence' => $request->recurrence ?? 'none',
             ]);
 
             if ($request->has('tags') && is_array($request->tags)) {
@@ -76,9 +79,32 @@ class TaskController extends Controller
                 $task->tags()->detach();
             }
         } else {
-            $task->update([
-                'is_completed' => !$task->is_completed
-            ]);
+            $wasPending = !$task->is_completed;
+
+            $task->update(['is_completed' => !$task->is_completed]);
+
+            if ($wasPending && $task->recurrence !== 'none' && $task->due_date) {
+
+                $newTask = $task->replicate();
+
+                $nextDate = Carbon::parse($task->due_date);
+
+                if ($task->recurrence === 'daily') {
+                    $nextDate->addDay();
+                } elseif ($task->recurrence === 'weekly') {
+                    $nextDate->addWeek();
+                } elseif ($task->recurrence === 'monthly') {
+                    $nextDate->addMonth();
+                }
+
+                $newTask->is_completed = false;
+                $newTask->due_date = $nextDate;
+                $newTask->save();
+
+                if ($task->tags->count() > 0) {
+                    $newTask->tags()->attach($task->tags->pluck('id'));
+                }
+            }
         }
 
         return redirect()->back()->with('success', 'Tarefa atualizada com sucesso!');

@@ -12,6 +12,7 @@ export default function TodoList({ tasks, tags }) {
         title: '',
         tags: [],
         due_date: '',
+        recurrence: 'none',
     });
 
     const filteredTasks = tasks.filter(task => {
@@ -49,6 +50,7 @@ export default function TodoList({ tasks, tags }) {
             onSuccess: () => {
                 reset('title');
                 reset('due_date');
+                reset('recurrence');
                 // Opcional: reset('tags') se quiser limpar as tags selecionadas após criar a tarefa
             },
         });
@@ -93,7 +95,7 @@ export default function TodoList({ tasks, tags }) {
                         {/* FORMULÁRIO REESTRUTURADO */}
                         <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-6">
 
-                            {/* Linha 1: Input e Data e Botão */}
+                            {/* Linha 1: Input, Data, Recorrência e Botão */}
                             <div className="flex flex-col sm:flex-row gap-2">
                                 <input
                                     type="text"
@@ -108,8 +110,19 @@ export default function TodoList({ tasks, tags }) {
                                     type="date"
                                     value={data.due_date}
                                     onChange={(e) => setData('due_date', e.target.value)}
-                                    className="w-full sm:w-auto dark:text-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 focus:ring-pomoblue-500 cursor-pointer"
+                                    className="w-full sm:w-auto dark:text-gray-100 dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 cursor-pointer"
                                 />
+
+                                <select
+                                    value={data.recurrence}
+                                    onChange={(e) => setData('recurrence', e.target.value)}
+                                    className="w-full sm:w-auto dark:text-gray-200 dark:bg-gray-900 border-gray-300 dark:border-gray-800 rounded-md shadow-sm focus:border-pomoblue-500 cursor-pointer text-sm"
+                                >
+                                    <option value="none">Uma vez</option>
+                                    <option value="daily">Diariamente</option>
+                                    <option value="weekly">Semanalmente</option>
+                                    <option value="monthly">Mensalmente</option>
+                                </select>
 
                                 <button
                                     type="submit"
