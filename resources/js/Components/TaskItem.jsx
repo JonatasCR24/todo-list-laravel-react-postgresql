@@ -10,11 +10,14 @@ export default function TaskItem({ task, allTags, toggleComplete, deleteTask }) 
     // 1. Memória de edição para a Data
     const [editDueDate, setEditDueDate] = useState(task.due_date ? task.due_date.substring(0, 10) : '');
 
+    const [editRecurrence, setEditRecurrence] = useState(task.recurrence || 'none');
+
     const saveEdit = () => {
         router.patch(`/tarefas/${task.id}`, {
             title: editTitle,
             tags: editTags,
-            due_date: editDueDate
+            due_date: editDueDate,
+            recurrence: editRecurrence
         }, {
             onSuccess: () => setIsEditing(false),
         });
@@ -24,7 +27,8 @@ export default function TaskItem({ task, allTags, toggleComplete, deleteTask }) 
         setIsEditing(false);
         setEditTitle(task.title);
         setEditTags(task.tags ? task.tags.map(t => t.id) : []);
-        setEditDueDate(task.due_date || ''); // 👈 Restaurando a data
+        setEditDueDate(task.due_date || '');
+        setEditRecurrence(task.recurrence || 'none');
     };
 
     const toggleEditTag = (tagId) => {
@@ -93,6 +97,16 @@ export default function TaskItem({ task, allTags, toggleComplete, deleteTask }) 
                             onChange={(e) => setEditDueDate(e.target.value)}
                             className="w-full sm:w-auto dark:bg-gray-900 border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:border-pomoblue-500 text-gray-700 dark:text-gray-200 p-2"
                         />
+                        <select
+                            value={editRecurrence}
+                            onChange={(e) => setEditRecurrence(e.target.value)}
+                            className="w-full sm:w-auto dark:bg-gray-900 border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:border-pomoblue-500 text-gray-700 dark:text-gray-200 p-2 text-sm"
+                        >
+                            <option value="none">Uma vez</option>
+                            <option value="daily">Diário</option>
+                            <option value="weekly">Semanal</option>
+                            <option value="monthly">Mensal</option>
+                        </select>
                     </div>
 
                     {/* Botões de Tags para Edição */}
@@ -121,12 +135,20 @@ export default function TaskItem({ task, allTags, toggleComplete, deleteTask }) 
                             {task.title}
                         </span>
 
-                        {/* Exibição da Data (Só aparece se a tarefa tiver prazo) */}
-                        {dueInfo && !task.is_completed && (
-                            <span className={`text-xs mt-0.5 ${dueInfo.colorClass}`}>
-                                📅 {dueInfo.formatted} {dueInfo.colorClass.includes('red') ? '(Atrasada)' : (dueInfo.colorClass.includes('yellow') ? '(Hoje)' : '')}
-                            </span>
-                        )}
+                        <div className="flex flex-wrap gap-2 items-center mt-0.5">
+                            {dueInfo && !task.is_completed && (
+                                <span className={`text-xs ${dueInfo.colorClass}`}>
+                                    📅 {dueInfo.formatted} {dueInfo.colorClass.includes('red') ? '(Atrasada)' : (dueInfo.colorClass.includes('yellow') ? '(Hoje)' : '')}
+                                </span>
+                            )}
+
+                            {task.recurrence !== 'none' && !task.is_completed && (
+                                <span className="text-[10px] font-bold text-pomoblue-600 dark:text-pomoblue-400 bg-pomoblue-50 dark:bg-pomoblue-900/30 px-1.5 py-0.5 rounded flex items-center gap-1 uppercase tracking-wider">
+                                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+                                    {task.recurrence === 'daily' ? 'Diário' : task.recurrence === 'weekly' ? 'Semanal' : 'Mensal'}
+                                </span>
+                            )}
+                        </div>
                     </div>
 
                     {task.tags && task.tags.length > 0 && (
