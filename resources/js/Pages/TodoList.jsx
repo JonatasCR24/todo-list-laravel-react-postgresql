@@ -51,7 +51,7 @@ export default function TodoList({ tasks, tags }) {
                 reset('title');
                 reset('due_date');
                 reset('recurrence');
-                // Opcional: reset('tags') se quiser limpar as tags selecionadas após criar a tarefa
+                reset('tags')
             },
         });
     };

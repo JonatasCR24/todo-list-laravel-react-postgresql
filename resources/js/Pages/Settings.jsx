@@ -204,7 +204,6 @@ export default function Settings() {
                                     />
                                 </div>
 
-                                {/* Botão de Adicionar */}
                                 <button
                                     type="submit"
                                     disabled={tagProcessing}
