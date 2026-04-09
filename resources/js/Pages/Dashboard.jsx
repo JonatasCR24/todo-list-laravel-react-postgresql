@@ -13,16 +13,10 @@ export default function Dashboard({ auth }) {
 
             <div className="py-12">
                 <div className="mx-auto max-w-6xl sm:px-6 lg:px-8">
-
-                    {/* CONTAINER MINIMALISTA DO PAINEL */}
                     <div className="bg-white p-12 shadow-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center dark:bg-gray-800 dark:border-gray-900 transition-colors duration-300">
-
-                        {/* A SUA LOGO AQUI NO TOPO DO PAINEL */}
                         <ApplicationLogo className="block h-60 w-auto fill-current text-gray-800 mb-6" />
 
                         <div className="grid md:grid-cols-2 gap-10 w-full max-w-5xl">
-
-                            {/* Card Tarefas - Usando o componente Link do Inertia */}
                             <Link href="/tarefas" className="bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-10 rounded-2xl flex items-center gap-8 hover:bg-pomoblue-50/50 hover:border-pomoblue-100 transition-colors group h-full">
                                 <span className="text-5xl">📝</span>
                                 <div>
