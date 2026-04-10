@@ -13,22 +13,22 @@ class DashboardController extends Controller
     {
         $userId = Auth::id();
 
-        // Conta as Concluídas
+
         $completedCount = Task::where('user_id', $userId)
-                              ->where('is_completed', true)
-                              ->count();
+            ->where('is_completed', true)
+            ->count();
 
         // Conta as Pendentes
         $pendingCount = Task::where('user_id', $userId)
-                            ->where('is_completed', false)
-                            ->count();
+            ->where('is_completed', false)
+            ->count();
 
         // Conta as Atrasadas (A nossa lógica nova!)
         $lateCount = Task::where('user_id', $userId)
-                         ->where('is_completed', false)
-                         ->whereNotNull('due_date')
-                         ->whereDate('due_date', '<', Carbon::today())
-                         ->count();
+            ->where('is_completed', false)
+            ->whereNotNull('due_date')
+            ->whereDate('due_date', '<', Carbon::today())
+            ->count();
 
         // Manda os números para o React desenhar a tela
         return Inertia::render('Dashboard', [
