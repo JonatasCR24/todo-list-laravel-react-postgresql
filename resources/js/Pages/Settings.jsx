@@ -12,6 +12,7 @@ export default function Settings() {
         pomodoro_break_minutes: preferences?.pomodoro_break_minutes || 5,
         lofi_focus_id: preferences?.lofi_focus_id || '',
         lofi_break_id: preferences?.lofi_break_id || '',
+        alarm_sound: preferences?.alarm_sound || 'default',
     });
 
     const { data: tagData, setData: setTagData, post: postTag, processing: tagProcessing, errors: tagErrors, reset: resetTag } = useForm({
@@ -65,6 +66,11 @@ export default function Settings() {
 
         // Retorna o ID encontrado. Se não achar nada de útil, retorna o que foi digitado mesmo
         return match ? match[1] : input;
+    };
+
+    const previewSound = (soundName) => {                                   //funcao para tocar o som antes
+        const alarme = new Audio(`/sounds/${soundName}.mp3`);
+        alarme.play().catch(erro => console.log("Erro ao tocar o som:", erro));
     };
 
     return (
@@ -121,6 +127,28 @@ export default function Settings() {
                                 {errors.pomodoro_break_minutes && <div className="text-red-500 text-sm mt-1">{errors.pomodoro_break_minutes}</div>}
                             </div>
 
+                            {/* --- SELETOR DE SOM DO ALARME --- */}
+                            <div className="mt-6">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                    Som do Alarme (Fim do Pomodoro)
+                                </label>
+                                <div className="flex gap-4 items-center">
+                                    <select
+                                        value={data.alarm_sound}
+                                        onChange={(e) => {
+                                            setData('alarm_sound', e.target.value);
+                                            previewSound(e.target.value);
+                                        }}
+                                        className="flex-1 dark:bg-gray-900 border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:border-pomoblue-500 text-gray-700 dark:text-gray-200 p-2"
+                                    >
+                                        <option value="default">Bipe Padrão</option>
+                                        <option value="bell">Sino Tibetano</option>
+                                        <option value="digital">Digital</option>
+                                        <option value="amongus">Amongus</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             {/* DIVISÓRIA VISUAL */}
                             <div className="pt-6 pb-2 border-t border-gray-100 dark:border-gray-700 mt-6">
                                 <h3 className="text-xl font-black text-gray-900 dark:text-gray-100">🎵 Trilhas Sonoras (YouTube)</h3>
@@ -128,6 +156,9 @@ export default function Settings() {
                                     Cole apenas o <b>ID do vídeo</b>. Exemplo: no link youtube.com/watch?v=<b>jfKfPfyJRdk</b>, o ID é a parte em negrito. Deixe em branco para usar o padrão.
                                 </p>
                             </div>
+
+
+
 
                             {/* CAMPO: LOFI DE FOCO */}
                             <div>

@@ -105,7 +105,7 @@ export default function Pomodoro() {
 
     useEffect(() => {
         if (timeLeft === 0) {
-            const alarme = new Audio('/sounds/alarme.mp3');
+            const alarme = new Audio(`/sounds/${preferences?.alarm_sound}.mp3`);
             alarme.play().catch(e => console.log("Erro ao tocar o som:", e));
 
             router.post('/pomodoro/session', {

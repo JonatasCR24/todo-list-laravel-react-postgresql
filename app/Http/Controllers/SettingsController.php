@@ -26,6 +26,7 @@ class SettingsController extends Controller
                 'user_id' => $userId,
                 'pomodoro_focus_minutes' => 25,
                 'pomodoro_break_minutes' => 5,
+                'alarm_sound' => 'default',
             ]);
         }
 
@@ -44,15 +45,17 @@ class SettingsController extends Controller
             'pomodoro_break_minutes' => 'required|integer|min:1|max:999',
             'lofi_focus_id' => 'nullable|string|max:50',
             'lofi_break_id' => 'nullable|string|max:50',
+            'alarm_sound' => 'required|string|in:default,bell,digital,amongus',
         ]);
 
-        $preferences = UserPreference::where('user_id', Auth::id())->first();
+        $preferences = UserPreference::where('user_id', $userId)->first();
 
         $preferences->update([
             'pomodoro_focus_minutes' => $request->pomodoro_focus_minutes,
             'pomodoro_break_minutes' => $request->pomodoro_break_minutes,
             'lofi_focus_id' => $request->lofi_focus_id,
             'lofi_break_id' => $request->lofi_break_id,
+            'alarm_sound' => $request->alarm_sound,
         ]);
 
         return redirect()->back()->with('success', 'Preferências atualizadas com sucesso!');

@@ -14,7 +14,8 @@ class UserPreference extends Model
         'pomodoro_focus_minutes', 
         'pomodoro_break_minutes',
         'lofi_focus_id',
-        'lofi_break_id'
+        'lofi_break_id',
+        'alarm_sound',
         ];
 
     public function user()
