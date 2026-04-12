@@ -16,6 +16,8 @@ export default function UpdateProfileInformation({
         useForm({
             name: user.name,
             email: user.email,
+            username: user.username || '',
+            bio: user.bio || '',
         });
 
     const submit = (e) => {
@@ -37,6 +39,41 @@ export default function UpdateProfileInformation({
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
+
+                <div className="flex items-center gap-6 mt-6 mb-6">
+                    <img
+                        src={`https://ui-avatars.com/api/?name=${data.name}&background=random`}
+                        alt="Avatar do Usuário"
+                        className="w-24 h-24 rounded-full shadow-md"
+                    />
+
+                    <div className="flex-1">
+                        <InputLabel htmlFor="username" value="Nome de Usuário (@)" />
+                        <TextInput
+                            id="username"
+                            className="mt-1 block w-full"
+                            value={data.username}
+                            onChange={(e) => setData('username', e.target.value)}
+                            placeholder="seunome_dev"
+                        />
+                        <InputError className="mt-2" message={errors.username} />
+                    </div>
+                </div>
+
+                <div className="mb-6">
+                    <InputLabel htmlFor="bio" value="Biografia" />
+
+                    <textarea
+                        id="bio"
+                        className="border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm w-full mt-1"
+                        rows="3"
+                        value={data.bio}
+                        onChange={(e) => setData('bio', e.target.value)}
+                        placeholder="Conte um pouco sobre seus projetos e foco..."
+                    />
+                    <InputError className="mt-2" message={errors.bio} />
+                </div>
+
                 <div>
                     <InputLabel htmlFor="name" value="Nome" className="dark:text-gray-300" />
 
