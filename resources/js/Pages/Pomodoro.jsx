@@ -109,7 +109,10 @@ export default function Pomodoro() {
             alarme.play().catch(e => console.log("Erro ao tocar o som:", e));
 
             router.post('/pomodoro/session', {
-                duration_minutes: isBreak ? 5 : 25,
+                duration_minutes: isBreak
+                    ? (preferences?.pomodoro_break_minutes || 5)
+                    : (preferences?.pomodoro_focus_minutes || 25),
+
                 type: isBreak ? 'short_break' : 'focus',
             }, {
                 preserveScroll: true,
