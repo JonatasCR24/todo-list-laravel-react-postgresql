@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\Auth\MustVerifyEmail; pq que essa linha tá comentada pelo laravel??
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -48,9 +48,13 @@ class User extends Authenticatable
         ];
     }
 
-    // Dizemos ao laravel: "Este usuário tem várias tarefas"
-    public function tasks()
+    public function tasks() //"Este usuário tem várias tarefas"
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function pomodoroSessions() //"Este usuário tem várias sessões de pomodoro"
+    {
+        return $this->hasMany(PomodoroSession::class);
     }
 }

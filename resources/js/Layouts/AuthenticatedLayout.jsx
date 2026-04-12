@@ -56,14 +56,22 @@ export default function AuthenticatedLayout({ header, children }) {
                                     Dashboard
                                 </NavLink>
 
-                                {/*Novo link pra tarefas no PC*/}
+                                {/*link pra tarefas no PC*/}
                                 <NavLink href="/tarefas" active={window.location.pathname === '/tarefas'}>
                                     Minhas Tarefas
                                 </NavLink>
 
-                                {/*Novo link pra pomodoro no PC*/}
+                                {/*link pra pomodoro no PC*/}
                                 <NavLink href="/pomodoro" active={window.location.pathname === '/pomodoro'}>
                                     Pomodoro
+                                </NavLink>
+
+                                {/*link pra o ranking no PC*/}
+                                <NavLink
+                                    href={route('ranking')}
+                                    active={route().current('ranking')}
+                                >
+                                    Ranking
                                 </NavLink>
 
                             </div>
@@ -180,14 +188,19 @@ export default function AuthenticatedLayout({ header, children }) {
                             Dashboard
                         </ResponsiveNavLink>
 
-                        {/*Novo link pra tarefas no mobile*/}
+                        {/*link pra tarefas no mobile*/}
                         <ResponsiveNavLink href="/tarefas" active={window.location.pathname === '/tarefas'}>
                             Minhas Tarefas
                         </ResponsiveNavLink>
 
-                        {/*Novo link pra pomodoro no mobile*/}
+                        {/*link pra pomodoro no mobile*/}
                         <ResponsiveNavLink href="/pomodoro" active={window.location.pathname === '/pomodoro'}>
                             Pomodoro
+                        </ResponsiveNavLink>
+
+                        {/*link pra ranking no mobile }*/}
+                        <ResponsiveNavLink href={route('ranking')} active={route().current('ranking')}>
+                            Ranking
                         </ResponsiveNavLink>
 
                     </div>
