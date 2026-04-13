@@ -44,7 +44,7 @@ export default function Leaderboard({ auth, topUsers }) {
                                     </div>
 
                                     <div className="text-lg font-bold text-pomoblue-600 dark:text-pomoblue-400">
-                                        {user.pomodoro_sessions_sum_duration_minutes} min
+                                        {user.pomodoro_sessions_sum_duration_minutes || 0} min
                                     </div>
 
                                 </div>
