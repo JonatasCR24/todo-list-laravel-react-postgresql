@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage, useForm, router } from '@inertiajs/react';
 import Swal from 'sweetalert2';
@@ -68,9 +68,20 @@ export default function Settings() {
         return match ? match[1] : input;
     };
 
+
+    //referente ao som:
+
+    const audioAtual = useRef(null);
+
     const previewSound = (soundName) => {                                   //funcao para tocar o som antes
-        const alarme = new Audio(`/sounds/${soundName}.mp3`);
-        alarme.play().catch(erro => console.log("Erro ao tocar o som:", erro));
+
+        if (audioAtual.current) {
+            audioAtual.current.pause();
+            audioAtual.current.currentTime = 0;
+        }
+
+        audioAtual.current = new Audio(`/sounds/${soundName}.mp3`);
+        audioAtual.current.play().catch(erro => console.log("Erro ao tocar o som:", erro));
     };
 
     return (

@@ -112,11 +112,13 @@ export default function Pomodoro() {
                 duration_minutes: isBreak
                     ? (preferences?.pomodoro_break_minutes || 5)
                     : (preferences?.pomodoro_focus_minutes || 25),
-
                 type: isBreak ? 'short_break' : 'focus',
             }, {
                 preserveScroll: true,
 
+                onSuccess: () => {
+                    switchMode(!isBreak);
+                }
             });
         }
     }, [timeLeft, isBreak]);
