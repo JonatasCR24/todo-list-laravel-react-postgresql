@@ -29,9 +29,12 @@ export default function Footer() {
                 <div className="flex flex-wrap gap-x-8 gap-y-3 justify-center mb-8 text-sm font-medium text-gray-600 dark:text-gray-300">
                     <Link href="/pomodoro" className="hover:text-pomoblue-700">O Pomodoro</Link>
                     <Link href="/tarefas" className="hover:text-pomoblue-700">Lista de Tarefas</Link>
+
+                    {/* Links futuros
                     <Link href="#" className="hover:text-pomoblue-700">Ajuda</Link>
                     <Link href="#" className="hover:text-pomoblue-700">Termos de Uso</Link>
                     <Link href="#" className="hover:text-pomoblue-700">Privacidade</Link>
+                    */}
                 </div>
 
                 {/* COPYRIGHT E MARCA */}
