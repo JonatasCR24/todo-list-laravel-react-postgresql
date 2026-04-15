@@ -25,36 +25,52 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-
 // Tudo que estiver dentro desse group só pode ser acessado por quem estiver logado (middleware('auth'))
 Route::middleware('auth')->group(function () {
 
-    //Rotas para editar, atualizar e deletar o perfil do usuário:
+    /* Antigamente:
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    */
 
-    //Rotas para gerenciar tarefas
-    Route::get('/tarefas', [TaskController::class, 'index']); // Quando ENTRAR na página, roda a função index
-    Route::post('/tarefas', [TaskController::class, 'store']); // Quando ENVIAR o formulário, roda a função store
-    Route::patch('/tarefas/{task}', [TaskController::class, 'update']); // Quando ALTERAR o formulário, roda a função update
-    Route::delete('/tarefas/{task}', [TaskController::class, 'destroy']); // Quando EXCLUIR uma tarefa, roda a função destroy
 
-    //Rotas para gerenciar sessões de pomodoro
-    Route::get('/pomodoro', [PomodoroController::class, 'index']);
-    Route::post('/pomodoro/session', [PomodoroController::class, 'store'])->name('pomodoro.store');
+    // Rotas para editar, atualizar e deletar o perfil do usuário:
+    Route::controller(ProfileController::class)->prefix('profile')->group(function () {
+        Route::get('/', 'edit')->name('profile.edit');
+        Route::patch('/', 'update')->name('profile.update');
+        Route::delete('/', 'destroy')->name('profile.destroy');
+    });
 
-    //Rotas para gerenciar configurações do usuário
-    Route::get('/configuracoes', [SettingsController::class, 'edit'])->name('settings.edit');
-    Route::put('/configuracoes', [SettingsController::class, 'update'])->name('settings.update');
+    // Rotas para gerenciar tarefas
+    Route::controller(TaskController::class)->prefix('tarefas')->group(function () {
+        Route::get('/', 'index'); // Quando ENTRAR na página, roda a função index
+        Route::post('/', 'store'); // Quando ENVIAR o formulário, roda a função store
+        Route::patch('/{task}', 'update'); // Quando ALTERAR o formulário, roda a função update
+        Route::delete('/{task}', 'destroy'); // Quando EXCLUIR uma tarefa, roda a função destroy
+    });
 
-    //Rotas para gerenciar as tags:
-    Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
-    Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
+    // Rotas para gerenciar sessões de pomodoro
+    Route::controller(PomodoroController::class)->prefix('pomodoro')->group(function () {
+        Route::get('/', 'index');
+        Route::post('/session', 'store')->name('pomodoro.store');
+    });
 
-    //Rotas para visualizar o ranking:
+    // Rotas para gerenciar configurações do usuário
+    Route::controller(SettingsController::class)->prefix('configuracoes')->group(function () {
+        Route::get('/', 'edit')->name('settings.edit');
+        Route::put('/', 'update')->name('settings.update');
+    });
+
+    // Rotas para gerenciar as tags:
+    Route::controller(TagController::class)->prefix('tags')->group(function () {
+        Route::post('/', 'store')->name('tags.store');
+        Route::delete('/{tag}', 'destroy')->name('tags.destroy');
+    });
+
+    // Rotas para visualizar o ranking:
+    // (Como é apenas uma rota, mantemos o formato original por simplicidade)
     Route::get('/ranking', [LeaderboardController::class, 'index'])->name('ranking');
 });
-
 
 require __DIR__ . '/auth.php';
