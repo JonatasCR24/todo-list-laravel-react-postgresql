@@ -4,9 +4,9 @@ import Footer from '@/Components/Footer';
 
 export default function GuestLayout({ children }) {
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 flex flex-col">
+        <div className="bg-gray-50 dark:bg-gray-900 transition-colors duration-300 flex flex-col">
 
-            <main className="flex-grow flex flex-col items-center justify-center p-6 relative z-10">
+            <main className="min-h-screen flex-grow flex flex-col items-center justify-center p-6 relative z-10">
 
                 <Link href="/">
                     <ApplicationLogo className="h-24 w-auto fill-current text-gray-500 dark:text-gray-400" />

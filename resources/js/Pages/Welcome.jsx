@@ -1,8 +1,30 @@
 import { Link, Head } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import Footer from '@/Components/Footer'; // 👈 AQUI ESTÁ A CHAVE DA IMPORTAÇÃO!
+import Footer from '@/Components/Footer';
 
 export default function Welcome({ auth }) {
+    const [theme, setTheme] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('theme') || 'light';
+        }
+        return 'light';
+    });
+
+    useEffect(() => {
+        const htmlElement = document.documentElement;
+        if (theme === 'dark') {
+            htmlElement.classList.add('dark');
+        } else {
+            htmlElement.classList.remove('dark');
+        }
+        localStorage.setItem('theme', theme);
+    }, [theme]);
+
+    const toggleTheme = () => {
+        setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    };
+
     return (
         <>
             <Head title="Focus & Tasks" />
@@ -14,6 +36,9 @@ export default function Welcome({ auth }) {
                     <img src="/images/logo.png" alt="PomoTDL Logo" className="h-16 w-auto" />
 
                     <div className="flex gap-4 items-center">
+
+
+
                         {auth.user ? (
                             <Link
                                 href={route('dashboard')}
@@ -32,20 +57,29 @@ export default function Welcome({ auth }) {
 
                                 <Link
                                     href={route('register')}
-                                    className="ml-4 px-6 py-2.5 bg-pomoblue-600 text-white font-bold rounded-full text-sm shadow-md hover:bg-pomoblue-700 transition active:scale-95"
+                                    className="ml-4 px-6 py-2.5 bg-pomoblue-600 text-white font-bold rounded-full text-sm shadow-md hover:bg-pomoblue-700 transition active:scale-95 hidden sm:inline-block"
                                 >
                                     Começar Gratuitamente
                                 </Link>
                             </>
                         )}
+
+                        <button
+                            onClick={toggleTheme}
+                            className="mr-2 p-2 text-xl text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors focus:outline-none"
+                            title="Alternar Tema"
+                        >
+                            {theme === 'light' ? '🌙' : '☀️'}
+                        </button>
+
                     </div>
                 </div>
 
-                {/*Tela grandona (principal)*/}
+                {/* 1. HERO SECTION (A Promessa) */}
                 <div className="relative flex flex-col items-center pt-10 pb-20 justify-center px-6">
                     <div className="bg-white p-16 shadow-2xl sm:rounded-3xl border border-gray-100 flex flex-col items-center text-center max-w-4xl w-full dark:bg-gray-800 dark:border-gray-900 transition-colors duration-300 relative overflow-hidden">
-                        
-                        <ApplicationLogo className="block h-44 w-auto fill-current text-gray-800 mb-8 z-10 relative" />
+
+                        <ApplicationLogo className="block h-32 w-auto fill-current text-gray-800 dark:text-gray-200 mb-8 z-10 relative" />
 
                         <h1 className="text-5xl md:text-6xl font-black text-gray-900 dark:text-gray-200 tracking-tighter mb-6 relative z-10">
                             Organize seu dia.<br />
@@ -67,10 +101,10 @@ export default function Welcome({ auth }) {
                     </div>
                 </div>
 
-                {/*SEÇÃO DE BENEFÍCIOS*/}
+                {/* 2. SEÇÃO DE BENEFÍCIOS (Os Cartões) */}
                 <div className="max-w-6xl mx-auto px-6 pb-24">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        
+
                         {/* Cartão 1 */}
                         <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg border border-gray-100 dark:border-gray-700 text-center hover:-translate-y-2 transition-transform duration-300">
                             <div className="w-14 h-14 bg-pomoblue-100 dark:bg-gray-700 text-pomoblue-600 dark:text-pomoblue-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -101,7 +135,7 @@ export default function Welcome({ auth }) {
                     </div>
                 </div>
 
-                {/*CHAMADA FINAL*/}
+                {/* 3. CHAMADA FINAL (CTA) */}
                 {!auth.user && (
                     <div className="pb-24 px-6">
                         <div className="bg-pomoblue-600 rounded-3xl p-12 text-center max-w-4xl mx-auto shadow-xl">
@@ -120,8 +154,9 @@ export default function Welcome({ auth }) {
                         </div>
                     </div>
                 )}
-                {/*FOOTER*/}
+
                 <Footer />
+
             </div>
         </>
     );
