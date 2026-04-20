@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'accepted' => 'The :attribute field must be accepted.',
-    'accepted_if' => 'The :attribute field must be accepted when :other is :value.',
-    'active_url' => 'The :attribute field must be a valid URL.',
-    'after' => 'The :attribute field must be a date after :date.',
-    'after_or_equal' => 'The :attribute field must be a date after or equal to :date.',
+    'accepted' => 'O campo :attribute deve ser aceito.',
+    'accepted_if' => 'O campo :attribute deve ser aceito quando :other for :value.',
+    'active_url' => 'O campo :attribute deve ser uma URL válida.',
+    'after' => 'O campo :attribute deve ser uma data posterior a :date.',
+    'after_or_equal' => 'O campo :attribute deve ser uma data posterior ou igual a :date.',
     'alpha' => 'The :attribute field must only contain letters.',
     'alpha_dash' => 'The :attribute field must only contain letters, numbers, dashes, and underscores.',
     'alpha_num' => 'The :attribute field must only contain letters and numbers.',
@@ -148,7 +148,7 @@ return [
     'starts_with' => 'The :attribute field must start with one of the following: :values.',
     'string' => 'The :attribute field must be a string.',
     'timezone' => 'The :attribute field must be a valid timezone.',
-    'unique' => 'The :attribute has already been taken.',
+    'unique' => 'O :attribute já existe.',
     'uploaded' => 'The :attribute failed to upload.',
     'uppercase' => 'The :attribute field must be uppercase.',
     'url' => 'The :attribute field must be a valid URL.',
