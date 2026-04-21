@@ -11,6 +11,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\Auth\GoogleController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -71,6 +72,10 @@ Route::middleware('auth')->group(function () {
     // Rotas para visualizar o ranking:
     // (Como é apenas uma rota, mantemos o formato original por simplicidade)
     Route::get('/ranking', [LeaderboardController::class, 'index'])->name('ranking');
+
+    // Rotas do Google
+    Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
+    Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 });
 
 require __DIR__ . '/auth.php';
